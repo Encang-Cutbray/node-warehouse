@@ -1,5 +1,6 @@
 const express = require('express');
 const expHbs = require('express-handlebars');
+const path = require('path')
 
 const app = express()
 
@@ -7,8 +8,10 @@ const app = express()
 app.engine('.hbs', expHbs({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './src/views')
+app.use(express.static(path.join(__dirname, 'assets')));
 
-	
+
+
 app.get('/', async (req, res, next) => {
 	res.render('home');
 })
