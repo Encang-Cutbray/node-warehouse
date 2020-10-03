@@ -7,7 +7,7 @@ WORKDIR /app-warehouse
 COPY ./app-warehouse/package*.json ./
 COPY ./app-warehouse/tsconfig.json ./
 
-COPY ./app-warehouse .
+COPY ./app-warehouse/src .
 
 RUN ls -a
 RUN npm install
