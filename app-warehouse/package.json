@@ -1,0 +1,25 @@
+{
+  "name": "sample-store",
+  "version": "1.0.0",
+  "description": "Sample store using nodejs",
+  "main": "server.js",
+  "scripts": {
+    "tsc": "tsc",
+    "dev": "npx tsc && cd dist && nodemon server.js"
+  },
+  "keywords": [
+    "sample",
+    "store",
+    "nodejs",
+    "express",
+    "udemy"
+  ],
+  "author": "Encang Cutbray",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
