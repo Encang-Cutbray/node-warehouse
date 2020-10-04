@@ -19,8 +19,8 @@
 								class="material-icons">menu</i></a>
 						<a href="/" class="brand-logo">Materialize Framework</a>
 						<ul id="nav-mobile" class="right">
-							<li class="{{#if true}} active {{/if}}"><a href="/login">Login {{isActiveURL}}</a></li>
-							<li class="{{#if isActiveURL}} active {{/if}}"><a href="/register">Register {{isActiveURL}}</a></li>
+							<li class="active"><a href="/login">Login</a></li>
+							<li class="active"><a href="/register">Register</a></li>
 						</ul>
 					</div>
 				</div>
@@ -29,7 +29,7 @@
 	</header>
 	<!-- LEFT SIDEBAR	 -->
 	<ul id="sidenav-1" class="sidenav sidenav-fixed">
-		{{!-- <li><a class="subheader">Always out except on mobile</a></li>--}}
+		<!-- <li><a class="subheader">Always out except on mobile</a></li> -->
 		<li>
 			<div class="user-view">
 				<div class="background light-blue"></div>
@@ -90,12 +90,6 @@
 	</ul>
 
 	<main>
-		<p>{{isActiveURL}}</p>
-		<!-- Calls `foo` helper, overridden at render-level. -->
-		<p>{{originalUrl}}</p>
-		<!-- Calls `bar` helper, defined at instance-level. -->
-		<p>{{bar}}</p>
-		{{{body}}}
 	</main>
 
 	<script src="/js/jquery.js"></script>
@@ -105,7 +99,6 @@
 			$('.sidenav').sidenav();
 			$('#sidenav-1').sidenav({ edge: 'left' });
 			$('.dropdown-trigger').dropdown();
-
 		});
 
 	</script>

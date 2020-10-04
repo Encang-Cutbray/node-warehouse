@@ -7,6 +7,6 @@ insert_final_newline = true
 indent_style = tab
 indent_size = 2
 
-[*.hbs]
+[*.ejs]
 indent_style = tab
 indent_size = 2

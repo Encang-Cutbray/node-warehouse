@@ -1,11 +1,11 @@
 let mix = require('laravel-mix');
 // /Volumes/inter-hdd/Code/Express-Project/node-warehouse/app-warehouse/node_modules/materialize-css/dist/js/materialize.js
 
-mix.js(['node_modules/materialize-css/dist/js/materialize.min.js'], 'src/assets/js/main.js')
+mix.js(['node_modules/materialize-css/dist/js/materialize.min.js'], 'assets/js/main.js')
 	.styles([
 		'node_modules/materialize-css/dist/css/materialize.min.css',
-		'src/assets/css/material-icon.css'],
-		'src/assets/css/style.css');
+		'assets/css/material-icon.css'],
+		'assets/css/style.css');
 
 // Full API
 // mix.js(src, output);
