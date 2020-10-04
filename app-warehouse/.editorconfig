@@ -7,6 +7,14 @@ insert_final_newline = true
 indent_style = tab
 indent_size = 2
 
+[*.ts]
+indent_style = tab
+indent_size = 2
+
 [*.ejs]
+indent_style = tab
+indent_size = 2
+
+[*.json]
 indent_style = tab
 indent_size = 2

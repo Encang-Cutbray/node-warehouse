@@ -1,7 +1,6 @@
 import express from 'express'
 import path from 'path'
 import authRoute from './routes/auth.route'
-
 const app = express()
 const customeView = path.resolve(__dirname, '..', 'views')
 
@@ -16,8 +15,7 @@ app.use(authRoute);
 
 
 app.get('/', (req, res, next) => {
-	console.log('eeess');
-	res.render('sample-page');
+	res.render('samples/sample-page');
 })
 
 

@@ -7,8 +7,8 @@
 							class="material-icons">menu</i></a>
 					<a href="/" class="brand-logo">Materialize Framework</a>
 					<ul id="nav-mobile" class="right">
-						<li class="active"><a href="/login">Login</a></li>
-						<li class="active"><a href="/register">Register</a></li>
+						<li class="<%= urlActive === '/login' ? 'active' : null %>"><a href="/login">Login</a></li>
+						<li class="<%= urlActive === '/register' ? 'active' : null %>"><a href="/register">Registration</a></li>
 					</ul>
 				</div>
 			</div>
