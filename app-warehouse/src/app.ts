@@ -16,8 +16,8 @@ app.use(authRoute);
 
 
 app.get('/', (req, res, next) => {
-	console.log('eee');
-	res.render('layouts/sample');
+	console.log('eeess');
+	res.render('sample-page');
 })
 
 
