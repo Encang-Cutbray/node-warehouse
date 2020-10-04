@@ -4,7 +4,8 @@
   "description": "Sample store using nodejs",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "build:asset": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "keywords": [
     "sample",
@@ -18,12 +19,14 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^5.1.0",
-    "materialize-css": "^1.0.0",
     "mysql2": "^2.2.5",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
+    "jquery": "^3.5.1",
     "laravel-mix": "^5.0.5",
+    "materialize-css": "^1.0.0",
     "nodemon": "^2.0.4",
     "sequelize-cli": "^6.2.0",
     "shelljs": "^0.8.4",
