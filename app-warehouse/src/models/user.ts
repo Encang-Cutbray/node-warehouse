@@ -1,5 +1,5 @@
 import { Model } from "sequelize";
-
+// Oke
 export default function userModel(sequelize: any, DataTypes: any) {
 	class User extends Model {
 		static associate(models: any) {
