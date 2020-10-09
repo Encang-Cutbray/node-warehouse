@@ -1,34 +1,39 @@
 import fs from 'fs';
 import path from 'path';
+import dotEnv from 'dotenv'
 import Sequelize from 'sequelize';
-import dotEnv from 'dotenv';
 
-const db: any = {};
-const configure = dotEnv.config().parsed;
-
+const env = dotEnv.config().parsed!
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../../config/database.json')[env];
+const connection = require('../../database/connection')[env.MODE]
+const db: any = {};
 
 let sequelize: Sequelize.Sequelize;
 
-// Setup connection ih here
-if (configure!.ENV == 'production') {
+if (env.MODE == 'production') {
 	sequelize = new Sequelize.Sequelize(
-		config.database,
-		config.username,
-		config.password,
-		config
+		connection.database,
+		connection.username,
+		connection.password,
+		{
+			port: connection.port,
+			dialect: connection.dialect as Sequelize.Dialect,
+			dialectOptions: {
+				bigNumberStrings: true
+			}
+		}
 	);
 } else {
 	sequelize = new Sequelize.Sequelize(
-		configure!.DB_DATABASE,
-		configure!.DB_USER,
-		configure!.DB_PASSWORD,
+		connection.database,
+		connection.username,
+		connection.password,
 		{
-			port: +configure!.DB_PORT,
-			dialect: configure!.DB_DIALECT as Sequelize.Dialect,
-			host: configure!.DB_HOST
+			port: connection.port,
+			dialect: connection.dialect as Sequelize.Dialect,
+			dialectOptions: {
+				bigNumberStrings: true
+			}
 		}
 	);
 }
