@@ -12,28 +12,26 @@ const config = require(__dirname + '/../../config/database.json')[env];
 
 let sequelize: Sequelize.Sequelize;
 
-// if (config.use_env_variable) {
-// 	sequelize = new Sequelize(process.env[config.use_env_variable], config);
-// } else {
-// 	sequelize = new Sequelize(
-// 		config.database,
-// 		config.username,
-// 		config.password,
-// 		config
-// 	);
-// }
-
-sequelize = new Sequelize.Sequelize(
-	configure!.DB_DATABASE,
-	configure!.DB_USER,
-	configure!.DB_PASSWORD,
-	{
-		port: +configure!.DB_PORT,
-		dialect: configure!.DB_DIALECT as Sequelize.Dialect,
-		host: configure!.DB_HOST
-	}
-);
-
+// Setup connection ih here
+if (configure!.ENV == 'production') {
+	sequelize = new Sequelize.Sequelize(
+		config.database,
+		config.username,
+		config.password,
+		config
+	);
+} else {
+	sequelize = new Sequelize.Sequelize(
+		configure!.DB_DATABASE,
+		configure!.DB_USER,
+		configure!.DB_PASSWORD,
+		{
+			port: +configure!.DB_PORT,
+			dialect: configure!.DB_DIALECT as Sequelize.Dialect,
+			host: configure!.DB_HOST
+		}
+	);
+}
 
 fs.readdirSync(__dirname)
 	.filter(file => {
