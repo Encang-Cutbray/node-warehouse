@@ -29,14 +29,11 @@ sequelize = new Sequelize.Sequelize(
 	configure!.DB_PASSWORD,
 	{
 		port: +configure!.DB_PORT,
-		dialect: configure!.DB_DIALECT as Sequelize.Dialect
+		dialect: configure!.DB_DIALECT as Sequelize.Dialect,
+		host: configure!.DB_HOST
 	}
 );
 
-sequelize = new Sequelize.Sequelize('node_warehouse', 'root', 'secret', {
-	port: 3307,
-	dialect: 'mysql'
-});
 
 fs.readdirSync(__dirname)
 	.filter(file => {
