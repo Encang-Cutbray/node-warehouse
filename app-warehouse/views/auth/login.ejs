@@ -17,6 +17,8 @@
 								<span class="card-title black-text">Login</span>
 								<div class="divider margin--bottom-1"></div>
 								<form action="/login" method="post">
+									<!-- csrfToken -->
+									<%- include('../components/csrfInput'); %>
 
 									<!-- Username -->
 									<%- include('../components/input', {labelName: 'Email',
