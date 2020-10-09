@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
-    "build:asset": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "build:asset": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "sql:list": "exe npx sequelize-cli"
   },
   "keywords": [
     "sample",
@@ -17,23 +18,28 @@
   "author": "Encang Cutbray",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "body-parse": "^0.1.0",
+    "connect-session-sequelize": "^7.0.3",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/csurf": "^1.9.36",
     "@types/express": "^4.17.8",
     "@types/node": "^14.11.2",
+    "@types/passport-local": "^1.0.33",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
     "laravel-mix": "^5.0.5",

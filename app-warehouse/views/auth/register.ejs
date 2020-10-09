@@ -1,57 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<!-- Head Tag -->
-		<%- include('../partials/head', {title}); %>
-		<link rel="stylesheet" href="/css/custome-input.css" />
-	</head>
 
-	<body>
-		<main>
-			<!-- Your Content -->
-			<div class="container">
-				<div class="row">
-					<div class="col s12 m6 offset-m3">
-						<div class="card">
-							<div class="card-content">
-								<span class="card-title black-text">Registration</span>
-								<div class="divider margin--bottom-1"></div>
-								<form action="/register" method="post" autocomplete="off">
-									<!-- Email -->
-									<%- include('../components/input', {labelName: 'Email',
-									id:'email', nameInput:'email', typeInput: 'email' }); %>
+<head>
+	<!-- Head Tag -->
+	<%- include('../partials/head', {title}); %>
+	<link rel="stylesheet" href="/css/custome-input.css" />
+</head>
 
-									<!-- Username -->
-									<%- include('../components/input', {labelName: 'Username',
-									id:'username', nameInput:'username' }); %>
+<body>
+	<main>
+		<!-- Your Content -->
+		<div class="container">
+			<div class="row">
+				<div class="col s12 m6 offset-m3">
+					<div class="card">
+						<div class="card-content">
+							<span class="card-title black-text">Registration</span>
+							<div class="divider margin--bottom-1"></div>
+							<form action="/register" method="post" autocomplete="off">
+								<!-- csrfToken -->
+								<%- include('../components/csrfInput'); %>
 
-									<!-- Password -->
-									<%- include('../components/input', {labelName: 'Password',
-									id:'password', nameInput:'password', typeInput: 'password'}); %>
+								<!-- Name -->
+								<%- include('../components/input', {labelName: 'Name',
+									id:'name', nameInput:'name', placeholder: 'Full name'}); %>
 
-									<!-- Password Confirm -->
-									<%- include('../components/input', {labelName: 'Confirm',
+								<!-- Email -->
+								<%- include('../components/input', {labelName: 'Email',
+									id:'email', nameInput:'email', typeInput: 'email', placeholder: 'Email' }); %>
+
+								<!-- Password -->
+								<%- include('../components/input', {labelName: 'Password',
+									id:'password', nameInput:'password', typeInput: 'password', placeholder: 'Password'}); %>
+
+								<!-- Password Confirm -->
+								<%- include('../components/input', {labelName: 'Confirm',
 									id:'confirm', nameInput:'confirm', typeInput: 'password', placeholder: 'Password confirm'}); %>
 
-									<!-- Button Login -->
-									<div class="row row--bottom-10px">
-										<button class="btn red lighten-1 right margin--vertical-1">
-											Register
-										</button>
-									</div>
-								</form>
-							</div>
-							<div class="card-action red lighten-1">
-								<a href="/login" class="white-text">Login</a>
-							</div>
+								<!-- Button Login -->
+								<div class="row row--bottom-10px">
+									<button class="btn red lighten-1 right margin--vertical-1">
+										Register
+									</button>
+								</div>
+							</form>
+						</div>
+						<div class="card-action red lighten-1">
+							<a href="/login" class="white-text">Login</a>
 						</div>
 					</div>
 				</div>
 			</div>
-		</main>
+		</div>
+	</main>
 
-		<!-- Main javascript -->
-		<%- include('../partials/main-js'); %>
-		<script></script>
-	</body>
+	<!-- Main javascript -->
+	<%- include('../partials/main-js'); %>
+	<script></script>
+</body>
+
 </html>
