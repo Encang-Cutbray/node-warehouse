@@ -1,0 +1,15 @@
+<div class="row row--bottom-10px">
+	<label for="<%= id %>" class="col s12 m3 form--label">
+		<%= labelName %>
+	</label>
+	<div class="col s12 m9">
+		<input
+			type="<%= typeof typeInput != 'undefined' ? typeInput : 'text' %>"
+			name="<%= nameInput %>"
+			id="<%= id %>"
+			placeholder="<%= typeof placeholder != 'undefined' ? placeholder : '' %>"
+			value="<%= typeof value != 'undefined' ? value : '' %>"
+			class="browser-default form--control"
+		/>
+	</div>
+</div>

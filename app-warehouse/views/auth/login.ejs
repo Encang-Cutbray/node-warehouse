@@ -15,30 +15,22 @@
 						<div class="card">
 							<div class="card-content">
 								<span class="card-title black-text">Login</span>
-								<div class="divider"></div>
+								<div class="divider margin--bottom-1"></div>
 								<form action="/login" method="post">
-									<div class="row row--bottom-10px margin--top-1">
-										<label for="username" class="col s12 m3 form--label">Username</label>
-										<div class="col s12 m9">
-											<input
-												type="text"
-												id="username"
-												class="browser-default form--control"
-											/>
-										</div>
-									</div>
+
+									<!-- Username -->
+									<%- include('../components/input', {labelName: 'Email',
+									id:'email', nameInput:'email', typeInput: 'email' }); %>
+
+									<!-- Password -->
+									<%- include('../components/input', {labelName: 'Password',
+									id:'password', nameInput:'password'}); %>
+
+									<!-- Button Login -->
 									<div class="row row--bottom-10px">
-										<label for="password" class="col s12 m3 form--label">Password</label>
-										<div class="col s12 m9">
-											<input
-												type="password"
-												id="password"
-												class="browser-default form--control"
-											/>
-										</div>
-									</div>
-									<div class="row row--bottom-10px">
-											<button class="btn light-blue right margin--vertical-1">Login</button>
+										<button class="btn light-blue right margin--vertical-1">
+											Login
+										</button>
 									</div>
 								</form>
 							</div>
