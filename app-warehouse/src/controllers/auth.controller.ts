@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { registerNewuser } from '../services/user.service'
+import { validationResult } from 'express-validator'
+import { registerNewUser } from '../services/user.service'
 
 export const getLogin = (req: Request, res: Response, next: NextFunction) =>
 	res.render('auth/login', {
@@ -18,10 +19,16 @@ export const getRegister = (req: Request, res: Response, next: NextFunction) =>
 
 export const postRegister = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await registerNewuser(req.body)
+		const errors = validationResult(req)
+		if (!errors.isEmpty()) {
+			const errorMessage = errors.array()[0].msg
+			throw Error(errorMessage)
+		}
+		await registerNewUser(req.body)
 		return res.redirect('/login')
 	} catch (error) {
-		console.log(error);
+		const err = new Error(error)
+		next(err)
 	}
 
 }

@@ -1,7 +1,8 @@
-import express from 'express';
 import path from 'path';
-import bodyParser from 'body-parser';
 import csurf from 'csurf';
+import flash from 'connect-flash';
+import express from 'express';
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
 import { csrfToken } from './middlewares/csrf.middleware';
@@ -21,6 +22,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(csurf({ cookie: true }));
+app.use(flash())
+
 
 // Custome middlewares
 app.use(csrfToken);
