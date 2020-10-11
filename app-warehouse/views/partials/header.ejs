@@ -9,8 +9,13 @@
 						<%= APP_NAME %>
 					</a>
 					<ul id="nav-mobile" class="right">
-						<li class="<%= urlActive === '/login' ? 'active' : null %>"><a href="/login">Login</a></li>
-						<li class="<%= urlActive === '/register' ? 'active' : null %>"><a href="/register">Registration</a></li>
+						<% if (!isAuth) { %>
+							<li class="<%= urlActive === '/login' ? 'active' : null %>"><a href="/login">Login</a></li>
+							<li class="<%= urlActive === '/register' ? 'active' : null %>"><a href="/register">Registration</a></li>
+						<% } %>
+						<% if (isAuth) { %>
+							<li class="<%= urlActive === '/logout' ? 'active' : null %>"><a href="/logout">Logout</a></li>
+						<% } %>
 					</ul>
 				</div>
 			</div>

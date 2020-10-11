@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator'
 import * as userService from '../services/user.service'
 
 export const getLogin = (req: Request, res: Response, next: NextFunction) =>
-	res.render('auth/login', {
+	res.render('pages/auth/login', {
 		path: '/login',
 		title: 'Node Warehouse - login'
 	});
@@ -24,7 +24,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 
 }
 export const getRegister = (req: Request, res: Response, next: NextFunction) =>
-	res.render('auth/register', {
+	res.render('pages/auth/register', {
 		path: '/register',
 		title: 'Node Warehouse - registration'
 	});

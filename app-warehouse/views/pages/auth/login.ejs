@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<!-- Head Tag -->
-		<%- include('../partials/head', {title}); %>
+		<%- include('../../partials/head', {title}); %>
 		<link rel="stylesheet" href="/css/custome-input.css" />
 	</head>
 
@@ -18,14 +18,14 @@
 								<div class="divider margin--bottom-1"></div>
 								<form action="/login" method="post">
 									<!-- csrfToken -->
-									<%- include('../components/csrfInput'); %>
+									<%- include('../../components/csrfInput'); %>
 
 									<!-- Username -->
-									<%- include('../components/input', {labelName: 'Email',
+									<%- include('../../components/input', {labelName: 'Email',
 									id:'email', nameInput:'email', typeInput: 'email' }); %>
 
 									<!-- Password -->
-									<%- include('../components/input', {labelName: 'Password',
+									<%- include('../../components/input', {labelName: 'Password',
 									id:'password', nameInput:'password'}); %>
 
 									<!-- Button Login -->
@@ -47,7 +47,7 @@
 		</main>
 
 		<!-- Main javascript -->
-		<%- include('../partials/main-js'); %>
+		<%- include('../../partials/main-js'); %>
 		<script></script>
 	</body>
 </html>

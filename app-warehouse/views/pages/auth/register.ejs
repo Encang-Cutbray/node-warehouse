@@ -3,7 +3,7 @@
 
 <head>
 	<!-- Head Tag -->
-	<%- include('../partials/head', {title}); %>
+	<%- include('../../partials/head', {title}); %>
 	<link rel="stylesheet" href="/css/custome-input.css" />
 </head>
 
@@ -19,22 +19,22 @@
 							<div class="divider margin--bottom-1"></div>
 							<form action="/register" method="post" autocomplete="off">
 								<!-- csrfToken -->
-								<%- include('../components/csrfInput'); %>
+								<%- include('../../components/csrfInput'); %>
 
 								<!-- Name -->
-								<%- include('../components/input', {labelName: 'Name',
+								<%- include('../../components/input', {labelName: 'Name',
 									id:'name', nameInput:'name', placeholder: 'Full name'}); %>
 
 								<!-- Email -->
-								<%- include('../components/input', {labelName: 'Email',
+								<%- include('../../components/input', {labelName: 'Email',
 									id:'email', nameInput:'email', typeInput: 'email', placeholder: 'Email' }); %>
 
 								<!-- Password -->
-								<%- include('../components/input', {labelName: 'Password',
+								<%- include('../../components/input', {labelName: 'Password',
 									id:'password', nameInput:'password', typeInput: 'password', placeholder: 'Password'}); %>
 
 								<!-- Password Confirm -->
-								<%- include('../components/input', {labelName: 'Confirm',
+								<%- include('../../components/input', {labelName: 'Confirm',
 									id:'confirm', nameInput:'confirm', typeInput: 'password', placeholder: 'Password confirm'}); %>
 
 								<!-- Button Login -->
@@ -55,7 +55,7 @@
 	</main>
 
 	<!-- Main javascript -->
-	<%- include('../partials/main-js'); %>
+	<%- include('../../partials/main-js'); %>
 	<script></script>
 </body>
 
