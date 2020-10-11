@@ -33,8 +33,6 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 		req.flash('populate', req.body)
 		return res.status(422).redirect('/login')
 	}
-
-
 }
 export const getRegister = (req: Request, res: Response, next: NextFunction) => {
 	const errorMessage = req.flash('error')

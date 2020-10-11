@@ -17,7 +17,7 @@ export async function registerNewUser(user: registerNewUser) {
 		return newUser
 	} catch (error) {
 		await t.rollback();
-		throw Error(error)
+		throw error
 	}
 }
 
