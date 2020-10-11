@@ -8,12 +8,10 @@ type registerNewUser = { name: string, email: string, password: string }
 export async function registerNewUser(user: registerNewUser) {
 	const t = await Model.sequelize.transaction();
 	try {
-
 		const userExists = await Model.User.findOne({ where: { email: user.email } })
-		if (userExists){
+		if (userExists) {
 			throw 'Email is exists'
 		}
-		
 		const hasPassword = await hashPassword(user.password)
 		const newUser = await Model.User.create({
 			full_name: user.name,

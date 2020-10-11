@@ -1,14 +1,28 @@
 <!-- Error Messages -->
 <% if (errorMessage) { %>
-<div class="card padding--vertical-1 animate__animated animate__bounceIn">
-	<div class="padding--vertical-1 padding--horizontal-1 center-align">
-		<span class="red-text ">
-			<% if (errorMessage[0].hasOwnProperty('msg') ) { %>
-				<%=  errorMessage[0].msg %> for <%= errorMessage[0].param %>
-			<% } else { %>
-				<%= errorMessage[0] %> 
-			<% } %>
-		</span>
+	<style>
+		span#close-alert{
+			cursor: pointer;
+		}
+	</style>
+	<div class="card card--rounded padding--vertical-1 animate__animated animate__bounceIn" id="alert-message">
+		<div class="padding--vertical-1 padding--horizontal-1 center-align">
+			<span class="red-text ">
+				<% if (errorMessage[0].hasOwnProperty('msg') ) { %>
+					<%=  errorMessage[0].msg %> for <%= errorMessage[0].param %>
+				<% } else { %>
+					<%= errorMessage[0] %>
+				<% } %>
+			</span>
+			<span class="right" id="close-alert" onclick="myFunction()">
+				<i class="material-icons">close</i>
+			</span>
+		</div>
 	</div>
-</div>
+	<script>
+		function myFunction() {
+			const alert = document.getElementById('alert-message');
+			alert.remove();
+		}
+	</script>
 <% } %>

@@ -2,11 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator'
 import * as userService from '../services/user.service'
 
-export const getLogin = (req: Request, res: Response, next: NextFunction) =>{
+export const getLogin = (req: Request, res: Response, next: NextFunction) => {
 	const errorMessage = req.flash('error')
-	const populate = req.flash('populate')	
-	console.log(errorMessage[0]);
-
+	const populate = req.flash('populate')
 	res.render('pages/auth/login', {
 		path: '/login',
 		title: 'Node Warehouse - login',
@@ -14,7 +12,7 @@ export const getLogin = (req: Request, res: Response, next: NextFunction) =>{
 		populate: populate.length ? populate[0] : null
 	});
 }
-	
+
 
 export const postLogin = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -22,14 +20,14 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 		if (!errors.isEmpty()) {
 			throw errors.array()[0]
 		}
-		const { email, password } = req.body		
+		const { email, password } = req.body
 		const user = await userService.loginUser({ email, password })
 		req.session!.userLogin = user
 		req.session!.isLoggedIn = true
 		return req.session!.save(error => {
 			res.redirect('/')
 		})
-	} catch (error) {				
+	} catch (error) {
 		req.flash('error', error)
 		req.flash('populate', req.body)
 		return res.status(422).redirect('/login')
@@ -37,11 +35,11 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 }
 export const getRegister = (req: Request, res: Response, next: NextFunction) => {
 	const errorMessage = req.flash('error')
-	const populate = req.flash('populate')		
+	const populate = req.flash('populate')
 	return res.render('pages/auth/register', {
 		path: '/register',
 		title: 'Node Warehouse - registration',
-		errorMessage: errorMessage.length ? errorMessage: null,
+		errorMessage: errorMessage.length ? errorMessage : null,
 		populate: populate.length ? populate[0] : null
 	});
 }
@@ -53,7 +51,8 @@ export const postRegister = async (req: Request, res: Response, next: NextFuncti
 		if (!errors.isEmpty()) {
 			throw errors.array()[0]
 		}
-		await userService.registerNewUser(req.body)
+		const { name, email, password } = req.body
+		await userService.registerNewUser({ name, email, password })
 		return res.redirect('/login')
 	} catch (error) {
 		req.flash('error', error)

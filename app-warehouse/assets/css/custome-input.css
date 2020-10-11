@@ -54,6 +54,10 @@
   padding-bottom: 0.50rem;
 }
 
+.card--rounded {
+  border-radius: 0.85rem;
+}
+
 /* End spacing padding */
 
 .input--danger {

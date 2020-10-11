@@ -5,16 +5,24 @@ import { auth, guest } from '../middlewares/auth.middleware'
 const router = express.Router();
 
 router.get('/login', guest, authController.getLogin);
+
 router.post('/login', guest, [
 	check('email').isEmail(),
 	check('password').notEmpty()
 ], authController.postLogin);
 
 router.get('/register', guest, authController.getRegister);
+
 router.post('/register', guest, [
-	check('name').notEmpty(),
-	check('email').isEmail(),
-	check('password').notEmpty()
+	check('name', 'name is required').notEmpty(),
+	check('email', 'email is invalid').isEmail(),
+	check('password', 'password is required').notEmpty(),
+	check('confirm', 'confirm password not match').custom((value, {req}) => {		
+		if (req.body.password !== value){
+			return false
+		}
+		return true		
+	})
 ], authController.postRegister);
 
 router.get('/forgot-password', guest, authController.getForgotPassword);
@@ -22,6 +30,5 @@ router.get('/forgot-password', guest, authController.getForgotPassword);
 router.post('/forgot-password', guest, authController.postForgotPassword);
 
 router.get('/logout', auth, authController.getLogout);
-
 
 export default router;
