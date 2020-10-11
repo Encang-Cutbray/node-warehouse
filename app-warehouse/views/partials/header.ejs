@@ -5,7 +5,9 @@
 				<div class="col s12">
 					<a href="#" data-target="mobile-sidenav" class="left sidenav-trigger hide-on-medium-and-up"><i
 							class="material-icons">menu</i></a>
-					<a href="/" class="brand-logo">Materialize Framework</a>
+					<a href="/" class="brand-logo">
+						<%= APP_NAME %>
+					</a>
 					<ul id="nav-mobile" class="right">
 						<li class="<%= urlActive === '/login' ? 'active' : null %>"><a href="/login">Login</a></li>
 						<li class="<%= urlActive === '/register' ? 'active' : null %>"><a href="/register">Registration</a></li>

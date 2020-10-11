@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 export const shareApp = (req: Request, res: Response, next: NextFunction) => {
+	res.locals.APP_NAME = process.env.APP_NAME
 	res.locals.urlActive = req.originalUrl
 	next()
 }

@@ -13,6 +13,6 @@ app.use(errorRoute)
 app.use(errorHandler)
 
 app.listen(process.env.APP_PORT, function () {
-	// Generate session table
+	// Generate session table	
 	sessionStore.sync()
 })

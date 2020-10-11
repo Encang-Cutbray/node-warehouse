@@ -18,6 +18,7 @@ dotEnv.config()
 
 // session config
 const SequelizeStore: any = SessionSequelize(session.Store)
+database.sequelize.options['logging'] = false
 const sessionStore: any = new SequelizeStore({
 	db: database.sequelize,
 	// checkExpirationInterval: 15 * 60 * 1000,
