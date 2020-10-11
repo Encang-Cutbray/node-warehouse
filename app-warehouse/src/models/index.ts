@@ -5,12 +5,12 @@ import Sequelize from 'sequelize';
 
 const env = dotEnv.config().parsed!
 const basename = path.basename(__filename);
-const connection = require('../../database/connection')[env.MODE]
+const connection = require('../../database/connection')[env.APP_MODE]
 const db: any = {};
 
 let sequelize: Sequelize.Sequelize;
 
-if (env.MODE == 'production') {
+if (env.APP_MODE == 'production') {
 	sequelize = new Sequelize.Sequelize(
 		connection.database,
 		connection.username,

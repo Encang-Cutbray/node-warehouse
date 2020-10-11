@@ -1,14 +1,28 @@
 import path from 'path';
 import csurf from 'csurf';
-import flash from 'connect-flash';
+import dotEnv from 'dotenv'
 import express from 'express';
+import flash from 'connect-flash';
+import session from 'express-session'
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
+import SessionSequelize from 'connect-session-sequelize'
 
 import { csrfToken } from './middlewares/csrf.middleware';
 import { shareApp } from './middlewares/share.middleware';
+import database from './models/index'
 
 const app = express();
+
+// dotenv config
+dotEnv.config()
+
+// session config
+const SequelizeStore: any = SessionSequelize(session.Store)
+const sessionStore: any = new SequelizeStore({
+	db: database.sequelize,
+	// checkExpirationInterval: 15 * 60 * 1000,
+	// expiration: 7 * 24 * 60 * 60 * 1000
+});
 
 // Static assets
 app.use(express.static(path.join(__dirname, '..', 'assets')));
@@ -20,13 +34,20 @@ app.set('view engine', 'ejs');
 // package middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(csurf({ cookie: true }));
+app.use(session({
+	resave: false,
+	saveUninitialized: false,
+	name: process.env.SESSION_NAME,
+	secret: process.env.SESSION_SECRET as string,
+	store: sessionStore
+}))
 app.use(flash())
-
+app.use(csurf());
 
 // Custome middlewares
 app.use(csrfToken);
 app.use(shareApp);
 
-export default app;
+export {
+	app, sessionStore
+};

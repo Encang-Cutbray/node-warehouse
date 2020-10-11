@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator'
-import { registerNewUser } from '../services/user.service'
+import * as userService from '../services/user.service'
 
 export const getLogin = (req: Request, res: Response, next: NextFunction) =>
 	res.render('auth/login', {
@@ -8,9 +8,21 @@ export const getLogin = (req: Request, res: Response, next: NextFunction) =>
 		title: 'Node Warehouse - login'
 	});
 
-export const postLogin = (req: Request, res: Response, next: NextFunction) =>
-	res.json(req.body);
+export const postLogin = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const { email, password } = req.body
+		const user = await userService.loginUser({ email, password })
+		req.session!.userLogin = user
+		req.session!.isLoggedIn = true
+		return req.session!.save(error => {
+			res.redirect('/')
+		})
+	} catch (error) {
+		console.log(error);
+	}
 
+
+}
 export const getRegister = (req: Request, res: Response, next: NextFunction) =>
 	res.render('auth/register', {
 		path: '/register',
@@ -21,14 +33,12 @@ export const postRegister = async (req: Request, res: Response, next: NextFuncti
 	try {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
-			const errorMessage = errors.array()[0].msg
-			throw Error(errorMessage)
+			throw errors.array()[0]
 		}
-		await registerNewUser(req.body)
+		await userService.registerNewUser(req.body)
 		return res.redirect('/login')
 	} catch (error) {
-		const err = new Error(error)
-		next(err)
+		console.log(error);
 	}
 
 }
