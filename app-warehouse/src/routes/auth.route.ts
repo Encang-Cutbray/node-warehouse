@@ -5,7 +5,10 @@ import { auth, guest } from '../middlewares/auth.middleware'
 const router = express.Router();
 
 router.get('/login', guest, authController.getLogin);
-router.post('/login', guest, authController.postLogin);
+router.post('/login', guest, [
+	check('email').isEmail(),
+	check('password').notEmpty()
+], authController.postLogin);
 
 router.get('/register', guest, authController.getRegister);
 router.post('/register', guest, [

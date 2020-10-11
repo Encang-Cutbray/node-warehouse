@@ -1,0 +1,10 @@
+<!-- Error Messages -->
+<% if (errorMessage) { %>
+<div class="card padding--vertical-1 animate__animated animate__bounceIn">
+	<div class="padding--vertical-1 padding--horizontal-1 center-align">
+		<span class="red-text ">
+			<%= errorMessage[0].msg %> for <%= errorMessage[0].param %>
+		</span>
+	</div>
+</div>
+<% } %>
