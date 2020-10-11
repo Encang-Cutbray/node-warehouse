@@ -2,12 +2,15 @@ import { app, sessionStore } from './app'
 import errorRoute from './routes/error.route';
 import authRoute from './routes/auth.route';
 import dashboardRoute from './routes/dashboard.route';
+import { handle404 } from './controllers/error.controller'
 import { errorHandler } from './middlewares/error.middleware';
 
 // Setup route
 app.use(authRoute);
 app.use(dashboardRoute)
 app.use(errorRoute)
+
+app.use(handle404)
 
 // Handler error
 app.use(errorHandler)

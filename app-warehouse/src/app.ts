@@ -3,9 +3,10 @@ import csurf from 'csurf';
 import dotEnv from 'dotenv'
 import express from 'express';
 import flash from 'connect-flash';
-import session from 'express-session'
 import bodyParser from 'body-parser';
-import SessionSequelize from 'connect-session-sequelize'
+import session from 'express-session';
+import methodOverride from 'method-override';
+import SessionSequelize from 'connect-session-sequelize';
 
 import { shareApp, csrfToken } from './middlewares/share.middleware';
 import database from './models/index'
@@ -47,6 +48,8 @@ app.use(csurf());
 // Custome middlewares
 app.use(csrfToken);
 app.use(shareApp);
+app.use(methodOverride('_method'))
+
 
 export {
 	app, sessionStore

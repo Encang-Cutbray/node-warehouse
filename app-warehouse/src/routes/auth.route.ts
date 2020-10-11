@@ -14,6 +14,10 @@ router.post('/register', guest, [
 	check('password').notEmpty()
 ], authController.postRegister);
 
+router.get('/forgot-password', guest, authController.getForgotPassword);
+
+router.post('/forgot-password', guest, authController.postForgotPassword);
+
 router.get('/logout', auth, authController.getLogout);
 
 

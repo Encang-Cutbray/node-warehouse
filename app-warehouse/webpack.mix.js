@@ -1,7 +1,8 @@
 let mix = require('laravel-mix');
-
+// /Volumes/inter-hdd/Code/Express-Project/node-warehouse/app-warehouse/node_modules/animate.css/animate.min.css
 mix.js(['node_modules/materialize-css/dist/js/materialize.min.js'], 'assets/js/main.js')
 	.styles([
+		'node_modules/animate.css/animate.min.css',
 		'node_modules/materialize-css/dist/css/materialize.min.css',
 		'assets/css/material-icon.css',],
 		'assets/css/style.css');

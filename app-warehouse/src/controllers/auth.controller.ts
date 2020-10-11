@@ -42,5 +42,17 @@ export const postRegister = async (req: Request, res: Response, next: NextFuncti
 	}
 }
 
-export const getLogout = (req: Request, res: Response, next: NextFunction) =>
-	res.json(req.body)
+export const getLogout = (req: Request, res: Response, next: NextFunction) => {
+	req.session!.destroy(function (err) {
+		res.redirect('/login')
+	})
+}
+
+export const getForgotPassword = (req: Request, res: Response, next: NextFunction) =>
+	res.render('pages/auth/forgot-password', {
+		path: '/forgot-password',
+		title: 'Node Warehouse - Forgot password'
+	})
+
+export const postForgotPassword = (req: Request, res: Response, next: NextFunction) =>
+	res.json({ status: 'on development' })
