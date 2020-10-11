@@ -40,5 +40,7 @@ export const postRegister = async (req: Request, res: Response, next: NextFuncti
 	} catch (error) {
 		console.log(error);
 	}
-
 }
+
+export const getLogout = (req: Request, res: Response, next: NextFunction) =>
+	res.json(req.body)

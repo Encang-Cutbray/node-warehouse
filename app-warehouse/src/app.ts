@@ -7,8 +7,7 @@ import session from 'express-session'
 import bodyParser from 'body-parser';
 import SessionSequelize from 'connect-session-sequelize'
 
-import { csrfToken } from './middlewares/csrf.middleware';
-import { shareApp } from './middlewares/share.middleware';
+import { shareApp, csrfToken } from './middlewares/share.middleware';
 import database from './models/index'
 
 const app = express();

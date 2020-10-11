@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-export async function isAuth(req: Request, res: Response, next: NextFunction) {
+export function auth(req: Request, res: Response, next: NextFunction) {
 	const auth = req.session!.isLoggedIn || false
 	res.locals.isAuth = auth
 	if (auth) {
@@ -8,4 +8,13 @@ export async function isAuth(req: Request, res: Response, next: NextFunction) {
 		return next()
 	}
 	return res.redirect('/login')
+}
+
+export function guest(req: Request, res: Response, next: NextFunction) {
+	const auth = req.session!.isLoggedIn || false
+	res.locals.isAuth = auth
+	if (!res.locals.isAuth) {
+		return next()
+	}
+	return res.redirect('/')
 }
