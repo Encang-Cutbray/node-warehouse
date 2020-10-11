@@ -3,7 +3,11 @@
 <div class="card padding--vertical-1 animate__animated animate__bounceIn">
 	<div class="padding--vertical-1 padding--horizontal-1 center-align">
 		<span class="red-text ">
-			<%= errorMessage[0].msg %> for <%= errorMessage[0].param %>
+			<% if (errorMessage[0].hasOwnProperty('msg') ) { %>
+				<%=  errorMessage[0].msg %> for <%= errorMessage[0].param %>
+			<% } else { %>
+				<%= errorMessage[0] %> 
+			<% } %>
 		</span>
 	</div>
 </div>
