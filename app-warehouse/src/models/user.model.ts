@@ -1,8 +1,11 @@
 import { Model } from "sequelize";
 export default function userModel(sequelize: any, DataTypes: any) {
 	class User extends Model {
-		static associate(models: any) {
-			console.log(models);
+		static associate(models: any) {			
+			models.User.hasMany(models.Supplier, {
+				foreignKey: 'created_by',
+				as: 'supplier'
+			})
 		}
 	}
 	User.init(
@@ -18,7 +21,7 @@ export default function userModel(sequelize: any, DataTypes: any) {
 		},
 		{
 			sequelize,
-			modelName: "User",
+			modelName: 'User',
 			timestamps: false,
 			tableName: 'users'
 		}
