@@ -1,0 +1,12 @@
+<div class="row margin--bottom-1">
+	<label for="<%= id %>" class="col s12 m3 form--label">
+		<%= labelName %>
+	</label>
+	<div class="col s12 m9">
+		<textarea 
+			style="height: 100px";
+			class="form--control browser-default"
+			name="<%= nameInput %>" 
+			id="<%= id %>"><%= typeof value != 'undefined' ? value : '' %></textarea>
+	</div>
+</div>

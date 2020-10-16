@@ -5,6 +5,7 @@
 	<!-- Head Tag -->
 	<%- include('../../partials/head'); %>
 	<link rel="stylesheet" href="/css/custome.css">
+	<link rel="stylesheet" href="/css/custome-input.css" />
 </head>
 
 <body>
@@ -19,6 +20,23 @@
 		<h1 class="center">Dashboard</h1>
 		<p class="center"><strong>See also:</strong> <a href="https://codepen.io/j_holtslander/pen/YepdOo"
 				target="_blank">Materialize - Sidebars (Ultra-wide 21:9)</a></p>
+		<div class="row">
+			<div class="col s6 m4">
+				<%- include('../../components/textarea', {labelName: 'Textarea', nameInput: 'textarea', id: 'textarea'}); %>
+				<!-- <%- include('../../components/input', {labelName: 'Email',
+					id:'email', 
+					nameInput:'email', 
+					typeInput: 'email', 
+					placeholder: 'Email'  }); %>
+				<%- include('../../components/input', {labelName: 'Email',
+					id:'email', 
+					nameInput:'email', 
+					typeInput: 'email', 
+					placeholder: 'Email'  }); %> -->
+			</div>
+			<div class="col s6 m4">Welcome</div>
+			<div class="col s6 m4">Welcome</div>
+		</div>
 	</main>
 
 	<!-- Main javascript -->
