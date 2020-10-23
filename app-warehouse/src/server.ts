@@ -1,21 +1,51 @@
+import path from 'path'
+
 import { app, sessionStore } from './app'
-import errorRoute from './routes/error.route';
-import authRoute from './routes/auth.route';
-import dashboardRoute from './routes/dashboard.route';
 import { handle404 } from './controllers/error.controller'
 import { errorHandler } from './middlewares/error.middleware';
 
-// Setup route
-app.use(authRoute);
-app.use(dashboardRoute)
-app.use(errorRoute)
+import errorRoute from './routes/error.route';
+import authRoute from './routes/auth.route';
+import dashboardRoute from './routes/dashboard.route';
+import sampleRoute from './routes/sample.route';
 
-app.use(handle404)
+
+
+import expressVue = require('express-vue');
+const expressVueConfig = require('../expressvue.config');
+
+expressVue.use(app, expressVueConfig).then(() => {
+
+	app.use(authRoute);
+	app.use(dashboardRoute)
+	app.use(errorRoute)
+	app.use(sampleRoute)
+
+	app.get('/sample1', (req: any, res, next) => {
+		res.render('samples/sample-layout')
+
+	})
+	app.use(handle404)
+
+	app.use(errorHandler)
+	app.listen(process.env.APP_PORT, function () {
+		// Generate session table	
+		sessionStore.sync()
+	})
+
+});
+
+// Setup route
+// app.use(authRoute);
+// app.use(dashboardRoute)
+// app.use(errorRoute)
+
+// app.use(handle404)
 
 // Handler error
-app.use(errorHandler)
+// app.use(errorHandler)
 
-app.listen(process.env.APP_PORT, function () {
-	// Generate session table	
-	sessionStore.sync()
-})
+// app.listen(process.env.APP_PORT, function () {
+// 	// Generate session table	
+// 	sessionStore.sync()
+// })

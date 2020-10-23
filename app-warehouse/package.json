@@ -4,7 +4,7 @@
   "description": "Sample store using nodejs",
   "main": "server.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
+    "dev": "concurrently --kill-others \"tsc -w\" \"nodemon --ext vue dist/server.js\"",
     "assets:build": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "sql:list": "exe npx sequelize-cli"
   },
@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
+    "express-vue": "^5.15.1",
     "method-override": "^3.0.0",
     "moment": "^2.29.1",
     "mysql2": "^2.2.5",

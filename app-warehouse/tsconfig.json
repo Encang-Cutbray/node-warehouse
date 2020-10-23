@@ -64,7 +64,9 @@
 		"assets",
 		"dist",
 		"views",
+		"views-vue",
 		"database",
 		"webpack.mix.js",
+		"expressvue.config.js"
 	]
 }
