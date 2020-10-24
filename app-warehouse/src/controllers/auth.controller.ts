@@ -22,6 +22,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 		}
 		const { email, password } = req.body
 		const user = await userService.loginUser({ email, password })
+		delete user.dataValues.password; 		
 		req.session!.userLogin = user
 		req.session!.isLoggedIn = true
 		return req.session!.save(error => {

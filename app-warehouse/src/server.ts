@@ -9,9 +9,8 @@ import authRoute from './routes/auth.route';
 import dashboardRoute from './routes/dashboard.route';
 import sampleRoute from './routes/sample.route';
 
-
-
 import expressVue = require('express-vue');
+
 const expressVueConfig = require('../expressvue.config');
 
 expressVue.use(app, expressVueConfig).then(() => {
@@ -21,10 +20,6 @@ expressVue.use(app, expressVueConfig).then(() => {
 	app.use(errorRoute)
 	app.use(sampleRoute)
 
-	app.get('/sample1', (req: any, res, next) => {
-		res.render('samples/sample-layout')
-
-	})
 	app.use(handle404)
 
 	app.use(errorHandler)

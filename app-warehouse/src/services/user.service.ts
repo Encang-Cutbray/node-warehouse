@@ -29,7 +29,10 @@ export async function registerNewUser(user: registerNewUser) {
 
 export async function loginUser(login: userLogin) {
 	try {
-		const user = await Model.User.findOne({ where: { email: login.email } })
+		const user = await Model.User.findOne({
+			where: { email: login.email },
+			attributes: ['full_name', 'email', 'password']
+		})
 
 		if (!user) {
 			throw 'User not found'
