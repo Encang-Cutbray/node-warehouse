@@ -1,23 +1,34 @@
 'use strict';
 const Model = require('../../dist/models/index').default
-
+const resetForeignKey = require('../reset-foreign-key')
+const leftNav = require('../left-nav')
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		try {
-			console.log(Sequelize.Menu);
+			await resetForeignKey(queryInterface, 'menu_subs', 'menus')
+			
 			await Model.sequelize.transaction(async function (t) {
-				var menu = await Model.Menu.create({
-					code: 'Primary Menu',
-					name: 'Primary Menu',
-					url: 'Primary Menu',
-				}, { transaction: t })
-				for (let index = 0; index < 10; index++) {
-					await menu.createMenuSub({
-						code: 'Primary Menu',
-						name: 'Primary Menu',
-						url: 'Primary Menu',
+				for (let index = 0; index < leftNav.menu.length; index++) {
+
+					let menu = leftNav.menu[index]
+
+					var nav = await Model.Menu.create({
+						code: menu.code.toLowerCase(),
+						name: menu.name,
+						url: menu.url,
 					}, { transaction: t })
+
+					if (menu.subMenu != undefined) {
+						for (let i = 0; i < menu.subMenu.length; i++) {
+							await nav.createMenuSub({
+								code: menu.subMenu[i].code.toLowerCase(),
+								name: menu.subMenu[i].name,
+								url: menu.subMenu[i].url,
+							}, { transaction: t })
+						}
+					}
+
 				}
 			})
 		} catch (error) {
@@ -26,7 +37,6 @@ module.exports = {
 	},
 
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.bulkDelete('menu_subs', null, {});
-		return queryInterface.bulkDelete('menus', null, {});
+		await resetForeignKey(queryInterface, 'menu_subs', 'menus')
 	}
 };

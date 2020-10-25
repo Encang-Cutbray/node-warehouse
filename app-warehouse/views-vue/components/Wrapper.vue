@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Header :app-name="config.APP_NAME" :is-auth="config.isAuth"></Header>
-    <!-- <Header></Header> -->
-    <Sidenav :left-nav="leftNav" :user-login="config.userLogin"></Sidenav>
-    <!-- <Sidenav></Sidenav> -->
+    <Header :app-name="appName" :is-auth="isAuth"></Header>
+
+    <Sidenav :left-nav="leftNav" :user-login="userLogin"></Sidenav>
+
     <main>
       <slot></slot>
     </main>
@@ -13,8 +13,8 @@
 </template>
 <script>
 import Header from "./Header";
-import Footer from "./Footer";
 import Sidenav from "./Sidenav";
+import Footer from "./Footer";
 
 export default {
   components: {
@@ -26,17 +26,28 @@ export default {
     config: {
       type: Object,
       default: function() {
-        return {};
+        return null;
       }
     }
   },
   computed: {
+    userLogin() {
+      return this.config ? this.config.userLogin : {};
+    },
+    isAuth() {
+      return this.config ? this.config.isAuth : false;
+    },
+    appName() {
+      return this.config ? this.config.APP_NAME : "Node Warehouse";
+    },
     leftNav() {
-      const leftNav = this.config ? JSON.parse(this.config.leftNavMenu) : [];
-      return leftNav;
+      return this.config ? JSON.parse(this.config.leftNavMenu) : [];
     }
   },
   methods: {
+    isConfigEmpty() {
+      return Object.keys(this.config).length === 0;
+    },
     responsiveMenu() {
       $(".sidenav").sidenav();
       $("#sidenav-1")
@@ -45,7 +56,6 @@ export default {
       $(".dropdown-trigger").dropdown({
         coverTrigger: false,
         closeOnClick: true,
-        hover: true
       });
     }
   },

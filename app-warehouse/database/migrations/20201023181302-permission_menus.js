@@ -2,22 +2,31 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable('user_permissions', {
+		await queryInterface.createTable('permission_menus', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.BIGINT
 			},
-			menu_permissions_id: {
+			menu_id: {
 				type: Sequelize.BIGINT,
-				allowNull: false,
-				references: { model: 'menu_permissions', key: 'id' }
+				allowNull: true,
+				references: { model: 'menus', key: 'id' }
 			},
-			user_id: {
+			menu_sub_id: {
 				type: Sequelize.BIGINT,
+				allowNull: true,
+				references: { model: 'menu_subs', key: 'id' }
+			},
+			permission_id: {
+				type: Sequelize.BIGINT,
+				allowNull: true,
+				references: { model: 'permissions', key: 'id' }
+			},
+			name: {
 				allowNull: false,
-				references: { model: 'users', key: 'id' }
+				type: Sequelize.STRING
 			},
 			is_active: {
 				allowNull: false,
@@ -55,6 +64,6 @@ module.exports = {
 	},
 
   down: async (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('user_permissions')
+		return queryInterface.dropTable('permission_menus')
   }
 };

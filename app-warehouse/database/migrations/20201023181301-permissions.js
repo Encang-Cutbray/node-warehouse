@@ -1,23 +1,17 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable('menu_permissions', {
+	up: async (queryInterface, Sequelize) => {
+		await queryInterface.createTable('permissions', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.BIGINT
 			},
-			menu_id: {
-				type: Sequelize.BIGINT,
-				allowNull: true,
-				references: { model: 'menus', key: 'id' }
-			},
-			menu_sub_id: {
-				type: Sequelize.BIGINT,
-				allowNull: true,
-				references: { model: 'menu_subs', key: 'id' }
+			code: {
+				allowNull: false,
+				type: Sequelize.STRING
 			},
 			name: {
 				allowNull: false,
@@ -58,7 +52,7 @@ module.exports = {
 		})
 	},
 
-  down: async (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('menu_permissions')
-  }
+	down: async (queryInterface, Sequelize) => {
+		return queryInterface.dropTable('permissions')
+	}
 };
