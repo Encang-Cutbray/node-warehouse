@@ -4,5 +4,5 @@ import * as dashboardController from '../controllers/dashboard.controller';
 
 const router = express.Router();
 
-router.get('/', auth, dashboardController.getDashboard);
+router.get('/', auth, dashboardController.getSample);
 export default router;

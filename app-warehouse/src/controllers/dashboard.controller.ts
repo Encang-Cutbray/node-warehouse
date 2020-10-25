@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import Model from '../models/index'
 
 
-export async function getDashboard(req: Request, res: Response, next: NextFunction) {
+export async function getSample(req: Request, res: Response, next: NextFunction) {
 	try {
 		var menu = await Model.Menu.findAll({
 			attributes: ['id', 'code', 'name', 'url', 'is_active'],

@@ -1,5 +1,3 @@
-import path from 'path'
-
 import { app, sessionStore } from './app'
 import { handle404 } from './controllers/error.controller'
 import { errorHandler } from './middlewares/error.middleware';
