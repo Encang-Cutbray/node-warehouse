@@ -5,13 +5,17 @@
         <div class="left blue-text text-light-blue">{{pageTitle}}</div>
       </template>
       <template v-slot:right>
-        <a href="/supplier" class="btn light-blue btn-small waves-effect waves-light">Back</a>
+        <a
+          href="/supplier"
+          class="btn light-blue btn-small waves-effect waves-light"
+          :disabled="btnDisabled"
+        >Back</a>
       </template>
     </vue-page-title>
 
     <vue-card-content>
       <template v-slot:content>
-        <form :action="urlAction" method="post" autocomplete="off">
+        <form :action="urlAction" method="post" autocomplete="off" ref="form" @submit.prevent>
           <div class="row">
             <div class="col s6">
               <vue-csrf />
@@ -19,9 +23,16 @@
                 label="Supplier name"
                 input-name="supplierName"
                 :default-value="supplierName"
+								:readOnly="btnDisabled"
                 v-model="supplierName"
               />
-              <vue-input label="Phone" input-name="phone" :default-value="phone" v-model="phone" />
+              <vue-input
+                label="Phone"
+                input-name="phone"
+                :readOnly="btnDisabled"
+                :default-value="phone"
+                v-model="phone"
+              />
             </div>
             <div class="col s6">
               <vue-input
@@ -29,12 +40,14 @@
                 input-type="email"
                 input-name="email"
                 :default-value="email"
+                :readOnly="btnDisabled"
                 v-model="email"
               />
               <vue-textarea
                 label="Address"
                 input-name="address"
                 :default-value="address"
+                :readOnly="btnDisabled"
                 v-model="address"
               />
             </div>
@@ -43,7 +56,11 @@
           <div class="row">
             <div class="col s12">
               <div class="right">
-                <button class="light-blue btn-small waves-effect waves-light">{{btnSubmit}}</button>
+                <button
+                  class="light-blue btn-small waves-effect waves-light"
+                  @click="submitSupplier"
+                  :disabled="btnDisabled"
+                >{{btnSubmit}}</button>
               </div>
             </div>
           </div>
@@ -65,14 +82,16 @@ import VueTextarea from "../../components/inputs/Textarea";
 export default {
   mounted() {
     if (this.errorMessage) {
-      M.toast({ html: this.errorMessage[0].msg, classes: "light-red" });
-		}
-		
-		if (this.successMessage) {
-			console.log(this.successMessage);
-      M.toast({ html: this.successMessage[0],  classes: "light-blue"});
-		}
-		
+      M.toast({
+        html: `Error, ${this.errorMessage[0].msg}!!`,
+        classes: "light-red"
+      });
+    }
+
+    if (this.successMessage) {
+      M.toast({ html: this.successMessage[0], classes: "light-blue" });
+    }
+
     if (this.supplier) {
       this.phone = this.supplier.phone;
       this.supplierName = this.supplier.name;
@@ -94,6 +113,7 @@ export default {
       urlAction: "/supplier/post",
       pageTitle: "Create Supplier",
       btnSubmit: "Save",
+      btnDisabled: false,
       phone: "",
       supplierName: "",
       email: "",
@@ -108,7 +128,11 @@ export default {
     VueCsrf,
     VueTextarea
   },
-  computed: {
+  methods: {
+    submitSupplier() {
+      this.btnDisabled = !this.btnDisabled;
+      this.$refs.form.submit();
+    }
   }
 };
 </script>

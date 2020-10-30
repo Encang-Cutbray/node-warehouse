@@ -32,7 +32,7 @@ module.exports = {
 				}
 			})
 		} catch (error) {
-			console.log(error);
+			await resetForeignKey(queryInterface, 'menu_subs', 'menus')
 		}
 	},
 

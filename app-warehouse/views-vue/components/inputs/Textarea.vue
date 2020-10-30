@@ -4,6 +4,8 @@
     <div class="col s12 m9">
       <textarea
         class="form--control browser-default"
+				:readonly="readOnly"
+				:disabled="disabled"
         :style="rowTextArea"
         :name="inputName"
         :value="defaultValue"
@@ -23,6 +25,18 @@ export default {
     }
   },
   props: {
+		readOnly: {
+      type: Boolean,
+      default: function() {
+        return false;
+      }
+		},
+		disabled: {
+      type: Boolean,
+      default: function() {
+        return false;
+      }
+    },
     row: {
       type: Number,
       default: function() {

@@ -48,10 +48,11 @@ export async function createSupplier(newSupplier: newSupplier) {
 export async function getAllSupplier() {
 	const t = await Model.sequelize.transaction();
 	try {
-		const supplier = await Model.Supplier.findAll({
+		const supplier = await Model.Supplier.findAndCountAll({
+			offset: 0, limit: 10,
 			attributes: ['id', 'name', 'phone', 'email', 'address']
 		}, { transaction: t })
-		await t.commit();
+		await t.commit();		
 		return supplier
 	} catch (error) {
 		await t.rollback();

@@ -5,7 +5,7 @@ import * as supplierService from '../services/supplier.service'
 export async function getSupplier(req: Request, res: Response, next: NextFunction) {
 	try {
 		const suppliers = await supplierService.getAllSupplier();
-		const data = { suppliers }
+		const data = { suppliers: suppliers.rows }
 		return res.renderVue('pages/supplier/SupplierIndex.vue', data);
 	} catch (error) {
 		return res.status(500).redirect('/500')

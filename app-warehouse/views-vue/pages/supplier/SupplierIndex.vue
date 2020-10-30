@@ -30,7 +30,6 @@ export default {
   },
   computed: {
     getSupplier() {
-			console.log(this.suppliers);
       return this.suppliers;
     }
   },

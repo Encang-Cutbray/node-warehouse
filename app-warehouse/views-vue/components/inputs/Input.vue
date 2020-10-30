@@ -4,6 +4,8 @@
     <div class="col s12 m9">
       <input
         class="browser-default form--control"
+				:readonly="readOnly"
+				:disabled="disabled"
         :type="inputType"
         :name="inputName"
         :value="defaultValue"
@@ -16,6 +18,18 @@
 <script>
 export default {
   props: {
+    readOnly: {
+      type: Boolean,
+      default: function() {
+        return false;
+      }
+		},
+		disabled: {
+      type: Boolean,
+      default: function() {
+        return false;
+      }
+    },
     inputType: {
       type: String,
       default: function() {
