@@ -1,15 +1,15 @@
 import express from 'express';
-import { check } from 'express-validator'
+import { check, body } from 'express-validator'
 import { auth, guest } from '../middlewares/auth.middleware'
 import * as supplierController from '../controllers/supplier.controller';
 
 const router = express.Router();
 
 const validations = [
-	check('supplierName', 'Supplier name is required').notEmpty(),
-	check('phone', 'Phone is required').notEmpty(),
-	check('email', 'email is required').isEmail(),
-	check('address', 'address is required').notEmpty()
+	body('supplierName', 'Supplier name is required').trim().not().isEmpty(),
+	check('phone', 'Phone is required').trim().not().isEmpty(),
+	check('email', 'email is invalid').trim().isEmail(),
+	check('address', 'address is required').trim().notEmpty()
 ];
 router.get('/supplier', auth, supplierController.getSupplier);
 router.get('/supplier/create', auth, supplierController.createSupplier);

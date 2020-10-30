@@ -4,8 +4,9 @@
     <div class="col s12 m9">
       <textarea
         class="form--control browser-default"
-				:readonly="readOnly"
-				:disabled="disabled"
+        :class="{'border--error': hasError }"
+        :readonly="readOnly"
+        :disabled="disabled"
         :style="rowTextArea"
         :name="inputName"
         :value="defaultValue"
@@ -25,13 +26,19 @@ export default {
     }
   },
   props: {
-		readOnly: {
+    hasError: {
       type: Boolean,
       default: function() {
         return false;
       }
-		},
-		disabled: {
+    },
+    readOnly: {
+      type: Boolean,
+      default: function() {
+        return false;
+      }
+    },
+    disabled: {
       type: Boolean,
       default: function() {
         return false;
@@ -66,4 +73,7 @@ export default {
 </script>
 
 <style>
+.border--error {
+  border: 1px solid red !important;
+}
 </style>

@@ -23,12 +23,14 @@
                 label="Supplier name"
                 input-name="supplierName"
                 :default-value="supplierName"
-								:readOnly="btnDisabled"
+								:hasError="errorTag == 'supplierName'"
+                :readOnly="btnDisabled"
                 v-model="supplierName"
               />
               <vue-input
                 label="Phone"
                 input-name="phone"
+								:hasError="errorTag == 'phone'"
                 :readOnly="btnDisabled"
                 :default-value="phone"
                 v-model="phone"
@@ -39,6 +41,7 @@
                 label="Email"
                 input-type="email"
                 input-name="email"
+								:hasError="errorTag == 'email'"
                 :default-value="email"
                 :readOnly="btnDisabled"
                 v-model="email"
@@ -46,6 +49,7 @@
               <vue-textarea
                 label="Address"
                 input-name="address"
+								:hasError="errorTag == 'address'"
                 :default-value="address"
                 :readOnly="btnDisabled"
                 v-model="address"
@@ -82,6 +86,8 @@ import VueTextarea from "../../components/inputs/Textarea";
 export default {
   mounted() {
     if (this.errorMessage) {
+			console.log(this.errorMessage[0].param);
+			this.errorTag = this.errorMessage[0].param
       M.toast({
         html: `Error, ${this.errorMessage[0].msg}!!`,
         classes: "light-red"
@@ -113,6 +119,7 @@ export default {
       urlAction: "/supplier/post",
       pageTitle: "Create Supplier",
       btnSubmit: "Save",
+      errorTag: "",
       btnDisabled: false,
       phone: "",
       supplierName: "",

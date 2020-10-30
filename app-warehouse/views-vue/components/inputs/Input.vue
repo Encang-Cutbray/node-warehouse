@@ -4,8 +4,9 @@
     <div class="col s12 m9">
       <input
         class="browser-default form--control"
-				:readonly="readOnly"
-				:disabled="disabled"
+        :class="{'border--error': hasError }"
+        :readonly="readOnly"
+        :disabled="disabled"
         :type="inputType"
         :name="inputName"
         :value="defaultValue"
@@ -18,13 +19,19 @@
 <script>
 export default {
   props: {
+    hasError: {
+			type: Boolean,
+      default: function() {
+        return false;
+      }
+		},
     readOnly: {
       type: Boolean,
       default: function() {
         return false;
       }
-		},
-		disabled: {
+    },
+    disabled: {
       type: Boolean,
       default: function() {
         return false;
@@ -59,4 +66,7 @@ export default {
 </script>
 
 <style>
+.border--error {
+  border: 1px solid red !important;
+}
 </style>

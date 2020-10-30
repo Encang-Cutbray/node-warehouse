@@ -1,8 +1,8 @@
 <template>
   <table class="table table--bordered table--sm highlight">
     <thead>
-      <tr class="center-align">
-        <th>No</th>
+      <tr>
+        <th class="valign center">No</th>
         <th>Name</th>
         <th>Phone</th>
         <th>Email</th>
@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr v-for="(supplier, index) in suppliers" :key="supplier.dataValues.id">
-        <td>{{index+1}}</td>
+        <td class="valign center">{{index+1}}</td>
         <td>{{supplier.dataValues.name}}</td>
         <td>{{supplier.dataValues.phone}}r</td>
         <td>{{supplier.dataValues.email}}</td>
