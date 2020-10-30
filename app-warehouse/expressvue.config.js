@@ -4,15 +4,12 @@ module.exports = {
 	pagesPath: path.resolve(__dirname, 'views-vue'),
 	head: {
 		styles: [
-			{ style: '/css/style.css' }
+			{ style: '/css/style.css' },
+			{ style: '/css/style-custome.css' }
 		],
 		scripts: [
-			{
-				src: '/js/jquery.js'
-			},
-			{
-				src: '/js/main.js'
-			}
+			{ src: '/js/jquery.js' },
+			{ src: '/js/main.js' }
 		]
 	},
 	data: {

@@ -11,7 +11,7 @@ import Wrapper from "../../components/Wrapper";
 export default {
   data() {
     return {
-      kopi: "Hitemddd"
+      kopi: "Sample Page"
     };
   },
   components: {

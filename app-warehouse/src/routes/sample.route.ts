@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get('/sample', auth, (req: any, res, next) => {
 	const data = {
-		otherData: 'Something Elses dsdssds'
+		otherData: 'Data from backend'
 	};
-	res.renderVue('pages/main.vue', data, {});
+	res.renderVue('pages/sample/sample.vue', data, {});
 
 });
 

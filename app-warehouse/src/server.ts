@@ -1,13 +1,15 @@
+import expressVue = require('express-vue');
+
 import { app, sessionStore } from './app'
 import { handle404 } from './controllers/error.controller'
 import { errorHandler } from './middlewares/error.middleware';
 
-import errorRoute from './routes/error.route';
 import authRoute from './routes/auth.route';
-import dashboardRoute from './routes/dashboard.route';
+import errorRoute from './routes/error.route';
 import sampleRoute from './routes/sample.route';
-
-import expressVue = require('express-vue');
+import dashboardRoute from './routes/dashboard.route';
+import supplierRoute from './routes/supplier.route';
+import warehouseRoute from './routes/warehouse.route';
 
 const expressVueConfig = require('../expressvue.config');
 
@@ -15,12 +17,15 @@ expressVue.use(app, expressVueConfig).then(() => {
 
 	app.use(authRoute);
 	app.use(dashboardRoute)
-	app.use(errorRoute)
+	app.use(supplierRoute)
+	app.use(warehouseRoute)
+
 	app.use(sampleRoute)
 
+	app.use(errorRoute)
 	app.use(handle404)
-
 	app.use(errorHandler)
+
 	app.listen(process.env.APP_PORT, function () {
 		// Generate session table	
 		sessionStore.sync()

@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div style="position: relative">
     <Header :app-name="appName" :is-auth="isAuth"></Header>
 
-    <Sidenav :left-nav="leftNav" :user-login="userLogin"></Sidenav>
+    <Sidenav :left-nav="leftNav" :user-login="userLogin" :url-active="urlActive"></Sidenav>
 
-    <main>
+    <main class="animate__animated animate__fadeIn">
       <slot></slot>
     </main>
 
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
   </div>
 </template>
 <script>
@@ -31,6 +31,9 @@ export default {
     }
   },
   computed: {
+    urlActive() {
+      return this.config ? this.config.urlActive : "/";
+    },
     userLogin() {
       return this.config ? this.config.userLogin : {};
     },
@@ -47,20 +50,7 @@ export default {
   methods: {
     isConfigEmpty() {
       return Object.keys(this.config).length === 0;
-    },
-    responsiveMenu() {
-      $(".sidenav").sidenav();
-      $("#sidenav-1")
-        .sidenav({ edge: "left" })
-        .css("width", "250px");
-      $(".dropdown-trigger").dropdown({
-        coverTrigger: false,
-        closeOnClick: true,
-      });
     }
-  },
-  mounted() {
-    this.responsiveMenu();
   }
 };
 </script>
@@ -78,5 +68,9 @@ footer {
   footer {
     padding-left: 0;
   }
+}
+
+main {
+  min-height: 89.3vh;
 }
 </style>

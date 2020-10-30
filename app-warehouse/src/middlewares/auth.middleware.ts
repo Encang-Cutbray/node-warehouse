@@ -25,9 +25,7 @@ export function auth(req: Request, res: Response, next: NextFunction) {
 			leftNavMenu: JSON.stringify(menu),
 		}
 		res.locals = { ...config }
-		expressVueConfig.data.config = {
-			...config,
-		}
+		expressVueConfig.data.config = { ...config }
 		next()
 	})
 }

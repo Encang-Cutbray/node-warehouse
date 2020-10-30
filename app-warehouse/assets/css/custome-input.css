@@ -54,11 +54,27 @@
   padding-bottom: 0.50rem;
 }
 
-.card--rounded {
-  border-radius: 0.85rem;
+.padding--top-1 {
+  padding-top: 0.50rem;
+}
+
+.padding--bottom-1 {
+  padding-bottom: 0.50rem;
+}
+
+.padding--right-1 {
+  padding-right: 0.50rem;
+}
+
+.padding--left-1 {
+  padding-left: 0.50rem;
 }
 
 /* End spacing padding */
+
+.card--rounded {
+  border-radius: 0.85rem;
+}
 
 .input--danger {
   border: 1px solid red !important;

@@ -1,20 +1,26 @@
 exports.menu = [
 	{
-		code: 'Setting1',
-		name: 'Setting1',
-		url: 'Setting1',
+		code: 'Setting 1',
+		name: 'Setting 1',
+		url: 'Setting 1',
 		permission: [],
 		subMenu: [{
-			code: 'Setting11',
-			name: 'Setting11',
-			url: 'Setting11',
+			code: 'Setting 11',
+			name: 'Setting 11',
+			url: 'Setting 11',
 			permission: [],
 		}]
 	},
 	{
-		code: 'Setting2',
-		name: 'Setting2',
-		url: 'Setting2',
+		code: 'supplier',
+		name: 'Supplier',
+		url: '/supplier',
+		permission: []
+	},
+	{
+		code: 'warehouse',
+		name: 'Warehouse',
+		url: '/warehouse',
 		permission: []
 	}
 ]

@@ -1,13 +1,8 @@
 <template>
-  <footer>
-    <!-- <div class="page-footer">
-      <div class="footer-copyright">
-        <div class="container">
-          © 2014 Copyright Text
-          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-        </div>
-      </div>
-    </div> -->
+  <footer class="footer">
+    <div class="">
+      <p>Footer</p>
+    </div>
   </footer>
 </template>
 
@@ -16,4 +11,14 @@ export default {};
 </script>
 
 <style>
+.footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 64;
+  background-color: #ee6e73;
+  color: white;
+  text-align: center;
+}
 </style>
