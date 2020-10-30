@@ -1,5 +1,5 @@
 <template>
-  <Wrapper :config="config">
+  <vue-wrapper :config="config">
 
     <div class="card">
       <div class="row valign-wrapper padding--horizontal-1">
@@ -14,50 +14,31 @@
       </div>
     </div>
 
-    <div class="padding--vertical-1 padding--horizontal-1">
-      <div class="card">
-        <table class="table table--bordered table--sm highlight">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Item Name</th>
-              <th>Item Price</th>
-            </tr>
-          </thead>
-					<tbody>
-              <tr>
-                <td>Alvin</td>
-                <td>Eclair</td>
-                <td>$0.87</td>
-              </tr>
-              <tr>
-                <td>Alan</td>
-                <td>Jellybean</td>
-                <td>$3.76</td>
-              </tr>
-              <tr>
-                <td>Jonathan</td>
-                <td>Lollipop</td>
-                <td>$7.00</td>
-              </tr>
-            </tbody>
-        </table>
-      </div>
-    </div>
-		
-  </Wrapper>
+		<supplier-table></supplier-table>
+
+  </vue-wrapper>
 </template>
 
 <script>
-import Wrapper from "../../components/Wrapper";
+import VueWrapper from "../../components/Wrapper";
+import SupplierTable from "./SupplierTable";
+
 export default {
   data() {
     return {
-      kopi: "Hitemddd"
+      kopi: "Hitemddd",
+      suppliers: [
+        {
+          name: "Cinta",
+          name: "Cinta",
+          name: "Cinta"
+        }
+      ]
     };
   },
   components: {
-    Wrapper
+    VueWrapper,
+    SupplierTable
   }
 };
 </script>
