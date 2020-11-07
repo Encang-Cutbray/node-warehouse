@@ -25,22 +25,23 @@
         >
           <div class="row">
             <div class="col s6">
-              <vue-csrf />
+              <!-- Supplier Logo -->
+              <vue-upload-image
+                label="Supplier Logo"
+                name-input="logo"
+                :disabled="btnDisabled"
+                :preview-file="logoSupplier"
+              />
+            </div>
 
-              <input type="file" name="logo" />
-
-              <div>
-                <img class="responsive-img" :src="logoSupplier" />
-              </div>
-              <vue-upload-image />
-
+            <div class="col s6">
               <!-- Supplier name -->
               <vue-input
                 label="Supplier"
                 input-name="supplierName"
                 :default-value="form.supplierName"
-                :hasError="errorTag == 'supplierName'"
-                :readOnly="btnDisabled"
+                :has-error="errorTag == 'supplierName'"
+                :read-only="btnDisabled"
                 v-model="form.supplierName"
               />
 
@@ -53,9 +54,7 @@
                 :default-value="form.phone"
                 v-model="form.phone"
               />
-            </div>
 
-            <div class="col s6">
               <!-- Email -->
               <vue-input
                 label="Email"
@@ -106,55 +105,17 @@ import VueInput from "../../components/inputs/Input";
 import VueUploadImage from "../../components/inputs/UploadImage";
 
 import VueTextarea from "../../components/inputs/Textarea";
+import { log } from "util";
 
 export default {
-  mounted() {
-    if (this.errorMessage) {
-      this.errorTag = this.errorMessage[0].param;
-      M.toast({
-        html: `Error, ${this.errorMessage[0].msg}!!`,
-        classes: "light-red"
-      });
-    }
-
-    if (this.successMessage) {
-      M.toast({ html: this.successMessage[0], classes: "light-blue" });
-    }
-
-    if (this.supplier) {
-      this.form.phone = this.supplier.phone;
-      this.form.supplierName = this.supplier.name;
-      this.form.email = this.supplier.email;
-      this.form.address = this.supplier.address;
-      this.form.logo = this.supplier.logo;
-      this.urlAction = `/supplier/${this.supplier.id}/update`;
-      this.pageTitle = "Review Supplier";
-      this.btnSubmit = "Update";
-    }
-    if (this.populate) {
-      this.form.phone = this.populate.phone;
-      this.form.supplierName = this.populate.supplierName;
-      this.form.email = this.populate.email;
-      this.form.address = this.populate.address;
-    }
-  },
-  computed: {
-    logoSupplier() {
-      if (this.form.logo) {
-        return this.form.logo.replace("assets", "");
-      }
-    },
-    urlForm() {
-      const csrfToken = this.config.csrfToken;
-      return `${this.urlAction}?_csrf=${csrfToken}`;
-    }
-  },
   data() {
     return {
       urlAction: "/supplier/post",
       pageTitle: "Create Supplier",
       btnSubmit: "Save",
       btnDisabled: false,
+      kopi: "",
+      sampleImage: "",
       errorTag: "",
       form: {
         phone: "",
@@ -178,6 +139,63 @@ export default {
     submitSupplier() {
       this.btnDisabled = !this.btnDisabled;
       this.$refs.form.submit();
+    },
+    parsingImage(url) {
+      if (url) {
+        var image = url.replace("assets", "");
+        return `http://localhost:3500${image}`;
+      }
+      return "";
+    }
+  },
+  watch: {
+    sampleImage: function(val) {
+      this.kopi = val;
+      return "welocme";
+    }
+  },
+  mounted() {
+    if (this.errorMessage) {
+      this.errorTag = this.errorMessage[0].param;
+      M.toast({
+        html: `Error, ${this.errorMessage[0].msg}!!`,
+        classes: "light-red"
+      });
+    }
+
+    if (this.successMessage) {
+      M.toast({ html: this.successMessage[0], classes: "light-blue" });
+    }
+
+    if (this.supplier) {
+      this.form.phone = this.supplier.phone;
+      this.form.supplierName = this.supplier.name;
+      this.form.email = this.supplier.email;
+      this.form.address = this.supplier.address;
+      this.form.logo = this.supplier.logo;
+      this.sampleImage = this.supplier.logo;
+
+      this.urlAction = `/supplier/${this.supplier.id}/update`;
+      this.pageTitle = "Review Supplier";
+      this.btnSubmit = "Update";
+    }
+    if (this.populate) {
+      this.form.phone = this.populate.phone;
+      this.form.supplierName = this.populate.supplierName;
+      this.form.email = this.populate.email;
+      this.form.address = this.populate.address;
+    }
+  },
+  computed: {
+    logoSupplier: function() {
+      if (this.form.logo) {
+        return `http://localhost:3500${this.form.logo.replace("assets", "")}`;
+      }
+      return null;
+    },
+    urlForm: function() {
+      const csrfToken = this.config.csrfToken;
+      return `${this.urlAction}?_csrf=${csrfToken}`;
     }
   }
 };
