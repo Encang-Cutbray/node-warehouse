@@ -17,7 +17,7 @@
       <template v-slot:content>
         <form
           :action="urlForm"
-          method="post"
+          method="POST"
           enctype="multipart/form-data"
           autocomplete="off"
           ref="form"
@@ -114,8 +114,7 @@ export default {
       pageTitle: "Create Supplier",
       btnSubmit: "Save",
       btnDisabled: false,
-      kopi: "",
-      sampleImage: "",
+      isEdit: false,
       errorTag: "",
       form: {
         phone: "",
@@ -174,7 +173,7 @@ export default {
       this.form.address = this.supplier.address;
       this.form.logo = this.supplier.logo;
       this.sampleImage = this.supplier.logo;
-
+      this.isEdit = true;
       this.urlAction = `/supplier/${this.supplier.id}/update`;
       this.pageTitle = "Review Supplier";
       this.btnSubmit = "Update";
@@ -195,7 +194,7 @@ export default {
     },
     urlForm: function() {
       const csrfToken = this.config.csrfToken;
-      return `${this.urlAction}?_csrf=${csrfToken}`;
+      return `${this.urlAction}/?_csrf=${csrfToken}`;
     }
   }
 };

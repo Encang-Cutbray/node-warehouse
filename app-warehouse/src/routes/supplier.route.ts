@@ -14,6 +14,9 @@ const upload = multer({
 const validations = [
 	check('logo', 'Please upload logo supplier')
 		.custom((value, { req }) => {
+			if (req.params!.supplierId) {
+				return true;
+			}
 			if (req.file === undefined) {
 				return false
 			}

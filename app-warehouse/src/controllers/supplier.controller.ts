@@ -73,7 +73,7 @@ export async function updateSupplier(req: Request, res: Response, next: NextFunc
 		}
 		const supplierId = req.params.supplierId
 		const { phone, supplierName, email, address } = req.body;
-		const logo = req.file.path
+		const logo = req.file ? req.file.path : null
 		const userId = req.session!.userLogin.id
 		const supplier = await supplierService.updateSupplierById(supplierId,
 			{ phone, supplierName, email, address, logo, userId }
@@ -82,6 +82,8 @@ export async function updateSupplier(req: Request, res: Response, next: NextFunc
 		req.flash('success', message)
 		return res.status(200).redirect('back')
 	} catch (error) {
+		console.log(error);
+
 		req.flash('error', error)
 		req.flash('populate', req.body)
 		return res.status(422).redirect('back')

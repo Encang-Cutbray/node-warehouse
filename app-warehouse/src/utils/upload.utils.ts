@@ -24,3 +24,12 @@ export function fileType(req: any, file: any, callback: Function) {
 		callback(null, false)
 	}
 }
+
+export async function deleteFile(filePath: string) {
+	if (filePath) {
+		try {
+			await fs.unlink(filePath, () => { })
+		} catch (error) {
+		}
+	}
+}

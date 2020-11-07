@@ -1,4 +1,5 @@
 import expressVue = require('express-vue');
+import methodOverride from 'method-override';
 
 import { app, sessionStore } from './app'
 import { handle404 } from './controllers/error.controller'
@@ -14,6 +15,14 @@ import warehouseRoute from './routes/warehouse.route';
 const expressVueConfig = require('../expressvue.config');
 
 expressVue.use(app, expressVueConfig).then(() => {
+
+	app.use(methodOverride(function (req, res) {
+		if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+			var method = req.body._method
+			delete req.body._method
+			return method
+		}
+	}))
 
 	app.use(authRoute);
 	app.use(dashboardRoute)

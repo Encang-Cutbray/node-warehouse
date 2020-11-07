@@ -1,10 +1,15 @@
 import Model from '../models'
 import { dateNow } from '../utils/dates.util';
-type newSupplier = { phone: string, supplierName: string, email: string, address: string, logo?: string, userId: Number }
+import { deleteFile } from '../utils/upload.utils'
+type newSupplier = { phone: string, supplierName: string, email: string, address: string, logo?: string | null, userId: Number }
 
 export async function updateSupplierById(id: any, dataUpdate: newSupplier) {
 	try {
 		const supplier = await findSupplierById(id)
+		// Delete supplier logo 
+		if (dataUpdate.logo) {
+			await deleteFile(supplier.logo)
+		}
 		supplier.name = dataUpdate.supplierName
 		supplier.phone = dataUpdate.phone
 		supplier.email = dataUpdate.email
