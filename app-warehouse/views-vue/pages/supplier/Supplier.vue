@@ -15,44 +15,66 @@
 
     <vue-card-content>
       <template v-slot:content>
-        <form :action="urlAction" method="post" autocomplete="off" ref="form" @submit.prevent>
+        <form
+          :action="urlForm"
+          method="post"
+          enctype="multipart/form-data"
+          autocomplete="off"
+          ref="form"
+          @submit.prevent
+        >
           <div class="row">
             <div class="col s6">
               <vue-csrf />
+
+              <input type="file" name="logo" />
+
+              <div>
+                <img class="responsive-img" :src="logoSupplier" />
+              </div>
+              <vue-upload-image />
+
+              <!-- Supplier name -->
               <vue-input
-                label="Supplier name"
+                label="Supplier"
                 input-name="supplierName"
-                :default-value="supplierName"
-								:hasError="errorTag == 'supplierName'"
+                :default-value="form.supplierName"
+                :hasError="errorTag == 'supplierName'"
                 :readOnly="btnDisabled"
-                v-model="supplierName"
+                v-model="form.supplierName"
               />
+
+              <!-- Phone -->
               <vue-input
                 label="Phone"
                 input-name="phone"
-								:hasError="errorTag == 'phone'"
+                :hasError="errorTag == 'phone'"
                 :readOnly="btnDisabled"
-                :default-value="phone"
-                v-model="phone"
+                :default-value="form.phone"
+                v-model="form.phone"
               />
             </div>
+
             <div class="col s6">
+              <!-- Email -->
               <vue-input
                 label="Email"
                 input-type="email"
                 input-name="email"
-								:hasError="errorTag == 'email'"
-                :default-value="email"
+                :hasError="errorTag == 'email'"
+                :default-value="form.email"
                 :readOnly="btnDisabled"
-                v-model="email"
+                v-model="form.email"
               />
+
+              <!-- Address -->
               <vue-textarea
                 label="Address"
                 input-name="address"
-								:hasError="errorTag == 'address'"
-                :default-value="address"
+                :hasError="errorTag == 'address'"
+                :default-value="form.address"
                 :readOnly="btnDisabled"
-                v-model="address"
+                v-model="form.address"
               />
             </div>
           </div>
@@ -79,15 +101,16 @@ import VueWrapper from "../../components/Wrapper";
 import VuePageTitle from "../../components/PageTitle";
 import VueCardContent from "../../components/CardContent";
 
-import VueInput from "../../components/inputs/Input";
 import VueCsrf from "../../components/inputs/Csrf";
+import VueInput from "../../components/inputs/Input";
+import VueUploadImage from "../../components/inputs/UploadImage";
+
 import VueTextarea from "../../components/inputs/Textarea";
 
 export default {
   mounted() {
     if (this.errorMessage) {
-			console.log(this.errorMessage[0].param);
-			this.errorTag = this.errorMessage[0].param
+      this.errorTag = this.errorMessage[0].param;
       M.toast({
         html: `Error, ${this.errorMessage[0].msg}!!`,
         classes: "light-red"
@@ -99,19 +122,31 @@ export default {
     }
 
     if (this.supplier) {
-      this.phone = this.supplier.phone;
-      this.supplierName = this.supplier.name;
-      this.email = this.supplier.email;
-      this.address = this.supplier.address;
+      this.form.phone = this.supplier.phone;
+      this.form.supplierName = this.supplier.name;
+      this.form.email = this.supplier.email;
+      this.form.address = this.supplier.address;
+      this.form.logo = this.supplier.logo;
       this.urlAction = `/supplier/${this.supplier.id}/update`;
       this.pageTitle = "Review Supplier";
       this.btnSubmit = "Update";
     }
     if (this.populate) {
-      this.phone = this.populate.phone;
-      this.supplierName = this.populate.supplierName;
-      this.email = this.populate.email;
-      this.address = this.populate.address;
+      this.form.phone = this.populate.phone;
+      this.form.supplierName = this.populate.supplierName;
+      this.form.email = this.populate.email;
+      this.form.address = this.populate.address;
+    }
+  },
+  computed: {
+    logoSupplier() {
+      if (this.form.logo) {
+        return this.form.logo.replace("assets", "");
+      }
+    },
+    urlForm() {
+      const csrfToken = this.config.csrfToken;
+      return `${this.urlAction}?_csrf=${csrfToken}`;
     }
   },
   data() {
@@ -119,12 +154,15 @@ export default {
       urlAction: "/supplier/post",
       pageTitle: "Create Supplier",
       btnSubmit: "Save",
-      errorTag: "",
       btnDisabled: false,
-      phone: "",
-      supplierName: "",
-      email: "",
-      address: ""
+      errorTag: "",
+      form: {
+        phone: "",
+        supplierName: "",
+        logo: "",
+        email: "",
+        address: ""
+      }
     };
   },
   components: {
@@ -133,7 +171,8 @@ export default {
     VueCardContent,
     VueInput,
     VueCsrf,
-    VueTextarea
+    VueTextarea,
+    VueUploadImage
   },
   methods: {
     submitSupplier() {

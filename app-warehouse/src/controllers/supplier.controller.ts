@@ -30,8 +30,9 @@ export async function postSupplier(req: Request, res: Response, next: NextFuncti
 		}
 		const { phone, supplierName, email, address } = req.body;
 		const userId = req.session!.userLogin.id
+		const logo = req.file.path
 		const newSupplier = await supplierService.createSupplier({
-			phone, supplierName, email, address, userId
+			phone, supplierName, email, address, logo, userId
 		})
 		const message = `Supplier ${newSupplier.name} created !!`
 		req.flash('success', message)
@@ -72,9 +73,10 @@ export async function updateSupplier(req: Request, res: Response, next: NextFunc
 		}
 		const supplierId = req.params.supplierId
 		const { phone, supplierName, email, address } = req.body;
+		const logo = req.file.path
 		const userId = req.session!.userLogin.id
 		const supplier = await supplierService.updateSupplierById(supplierId,
-			{ phone, supplierName, email, address, userId }
+			{ phone, supplierName, email, address, logo, userId }
 		)
 		const message = `Supplier ${supplier.name} updated !!`
 		req.flash('success', message)

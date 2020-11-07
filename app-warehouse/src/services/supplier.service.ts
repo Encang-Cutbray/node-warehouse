@@ -1,6 +1,6 @@
 import Model from '../models'
 import { dateNow } from '../utils/dates.util';
-type newSupplier = { phone: string, supplierName: string, email: string, address: string, userId: Number }
+type newSupplier = { phone: string, supplierName: string, email: string, address: string, logo?: string, userId: Number }
 
 export async function updateSupplierById(id: any, dataUpdate: newSupplier) {
 	try {
@@ -9,6 +9,7 @@ export async function updateSupplierById(id: any, dataUpdate: newSupplier) {
 		supplier.phone = dataUpdate.phone
 		supplier.email = dataUpdate.email
 		supplier.address = dataUpdate.address
+		supplier.logo = dataUpdate.logo ? dataUpdate.logo : supplier.logo
 		supplier.updated_at = dateNow()
 		supplier.updated_by = dataUpdate.userId
 		return await supplier.save()
@@ -33,6 +34,7 @@ export async function createSupplier(newSupplier: newSupplier) {
 			phone: newSupplier.phone,
 			email: newSupplier.email,
 			address: newSupplier.address,
+			logo: newSupplier.logo,
 			created_at: dateNow(),
 			created_by: newSupplier.userId,
 
@@ -52,7 +54,7 @@ export async function getAllSupplier() {
 			offset: 0, limit: 10,
 			attributes: ['id', 'name', 'phone', 'email', 'address']
 		}, { transaction: t })
-		await t.commit();		
+		await t.commit();
 		return supplier
 	} catch (error) {
 		await t.rollback();
