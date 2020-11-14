@@ -5,16 +5,17 @@
         <div class="left blue-text text-light-blue">SUPPLIER</div>
       </template>
       <template v-slot:right>
-        <a href="/supplier/create" class="btn light-blue btn-small waves-effect waves-light">New</a>
+        <a
+          href="/supplier/create"
+          class="btn light-blue btn-small waves-effect waves-light"
+        >New</a>
       </template>
     </vue-page-title>
 
     <vue-card-content :fit="true" v-slot:content>
       <supplier-table :suppliers="suppliers"></supplier-table>
     </vue-card-content>
-    total {{total}}
-    page {{page}}
-    perPage {{perPage}}
+
     <ul class="pagination right">
       <li class="disabled">
         <a href="#!">
@@ -39,11 +40,13 @@ import VuePageTitle from "../../components/PageTitle";
 import VueCardContent from "../../components/CardContent";
 
 import SupplierTable from "./SupplierTable";
+import previousUrl from "../../mixing/previous-url";
 
 export default {
   data() {
     return {};
   },
+  mixins: [previousUrl],
   computed: {
     getPage() {
       const paginate = Math.ceil(this.total / this.perPage);

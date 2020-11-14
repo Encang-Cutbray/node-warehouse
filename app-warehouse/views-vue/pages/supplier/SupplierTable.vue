@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr v-for="(supplier, index) in suppliers" :key="supplier.dataValues.id">
-        <td class="valign center">{{index+1}}</td>
+        <td class="valign center">{{index+1+numberTable}}</td>
         <td>{{supplier.dataValues.name}}</td>
         <td>{{supplier.dataValues.phone}}r</td>
         <td>{{supplier.dataValues.email}}</td>
@@ -29,7 +29,20 @@
 </template>
 
 <script>
+import previousUrl from "../../mixing/previous-url";
 export default {
+  data() {
+    return {
+      numberTable: 0
+    };
+  },
+  mixins: [previousUrl],
+  mounted() {
+    let page = __INITIAL_STATE__.page;
+    if (page > 1) {
+      this.numberTable = __INITIAL_STATE__.perPage;
+    }
+  },
   props: {
     suppliers: {
       type: Array,

@@ -1,14 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
-import Model from '../models/index'
 import expressVue = require('express-vue');
+import { Request, Response, NextFunction } from 'express';
 
-const expressVueConfig = require('../../expressvue.config')
 import { app } from '../app'
+import Model from '../models/index'
+const expressVueConfig = require('../../expressvue.config')
 
+// Get active url 
 function splitUrl(url: string) {
-	var resst = url.split("/");
-	return `/${resst[1]}`
+	var urlParser = url.split("/");
+	var fixedUrl = null
+	const pageQuery = "?";
+	if (urlParser[1].includes(pageQuery)) {
+		fixedUrl = urlParser[1].split("?")[0];
+		return `/${fixedUrl}`
+	}
+	fixedUrl = urlParser[1];
+	return `/${fixedUrl}`
 }
+
 export function auth(req: Request, res: Response, next: NextFunction) {
 	const auth = req.session!.isLoggedIn || false
 
@@ -19,6 +28,7 @@ export function auth(req: Request, res: Response, next: NextFunction) {
 	expressVue.use(app, expressVueConfig).then(async () => {
 
 		let urlActive = splitUrl(req.originalUrl)
+
 		let menu = await Model.Menu.scope('activeMenu', 'getSubMenu').findAll({
 			attributes: ['id', 'code', 'name', 'url', 'is_active'],
 		})
