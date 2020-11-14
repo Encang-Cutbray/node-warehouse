@@ -4,8 +4,16 @@ import * as supplierService from '../services/supplier.service'
 
 export async function getSupplier(req: Request, res: Response, next: NextFunction) {
 	try {
-		const suppliers = await supplierService.getAllSupplier();
-		const data = { suppliers: suppliers.rows }
+		const page = req.query.page || 1
+		const perPage = 10
+		const suppliers = await supplierService.getAllSupplier(+page, perPage);
+		const data = {
+			suppliers: suppliers.rows,
+			total: suppliers.count,
+			page: req.query.page,
+			perPage: perPage
+		}
+
 		return res.renderVue('pages/supplier/SupplierIndex.vue', data);
 	} catch (error) {
 		return res.status(500).redirect('/500')

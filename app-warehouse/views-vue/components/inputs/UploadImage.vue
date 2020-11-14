@@ -95,8 +95,7 @@ export default {
     if (drDestroy.isDropified()) {
       drDestroy.destroy();
     }
-		drDestroy.settings.defaultFile = this.previewFile;
-		console.log(drDestroy.settings);
+    drDestroy.settings.defaultFile = this.previewFile;
     setTimeout(function() {
       drDestroy.init();
     }, 1);

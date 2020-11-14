@@ -10,8 +10,26 @@
     </vue-page-title>
 
     <vue-card-content :fit="true" v-slot:content>
-      <supplier-table :suppliers="getSupplier"></supplier-table>
+      <supplier-table :suppliers="suppliers"></supplier-table>
     </vue-card-content>
+    total {{total}}
+    page {{page}}
+    perPage {{perPage}}
+    <ul class="pagination right">
+      <li class="disabled">
+        <a href="#!">
+          <i class="material-icons">chevron_left</i>
+        </a>
+      </li>
+      <li v-for="item of getPage" :key="item" :class="{active: page == (item+1)}">
+        <a :href="'?page=' + (item+1)">{{item+1}}</a>
+      </li>
+      <li class="waves-effect">
+        <a href="#!">
+          <i class="material-icons">chevron_right</i>
+        </a>
+      </li>
+    </ul>
   </vue-wrapper>
 </template>
 
@@ -24,13 +42,16 @@ import SupplierTable from "./SupplierTable";
 
 export default {
   data() {
-    return {
-      kopi: "Hitemddd"
-    };
+    return {};
   },
   computed: {
-    getSupplier() {
-      return this.suppliers;
+    getPage() {
+      const paginate = Math.ceil(this.total / this.perPage);
+      const pages = [];
+      for (let index = 0; index < paginate; index++) {
+        pages.push(index);
+      }
+      return pages;
     }
   },
   components: {

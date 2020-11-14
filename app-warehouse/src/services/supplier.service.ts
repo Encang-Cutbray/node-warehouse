@@ -52,11 +52,12 @@ export async function createSupplier(newSupplier: newSupplier) {
 	}
 }
 
-export async function getAllSupplier() {
+export async function getAllSupplier(page: number, perPage: number = 5) {
 	const t = await Model.sequelize.transaction();
+	const offset = page == 1 ? 0 : (page - 1) * perPage;
 	try {
 		const supplier = await Model.Supplier.findAndCountAll({
-			offset: 0, limit: 10,
+			offset: offset, limit: perPage,
 			attributes: ['id', 'name', 'phone', 'email', 'address']
 		}, { transaction: t })
 		await t.commit();

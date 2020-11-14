@@ -4,7 +4,7 @@ export async function getWarehouse(req: Request, res: Response, next: NextFuncti
 	const data = {
 		otherData: 'Something Elses dsdssds'
 	};
-	res.renderVue('pages/warehouse/warehouse.vue', data, {});
+	res.renderVue('pages/warehouse/warehouseIndex.vue', data, {});
 }
 export async function createWarehouse(req: Request, res: Response, next: NextFunction) {
 }
