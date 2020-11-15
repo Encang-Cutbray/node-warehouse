@@ -52,11 +52,13 @@ export async function createSupplier(newSupplier: newSupplier) {
 	}
 }
 
-export async function getAllSupplier(page: number, perPage: number = 5) {
+export async function getAllSupplier(page: number, perPage: number = 5, ...search: any) {
 	const t = await Model.sequelize.transaction();
+
 	const offset = page == 1 ? 0 : (page - 1) * perPage;
 	try {
 		const supplier = await Model.Supplier.findAndCountAll({
+			where: searchSupplier(search[0]),
 			offset: offset, limit: perPage,
 			attributes: ['id', 'name', 'phone', 'email', 'address']
 		}, { transaction: t })
@@ -66,4 +68,32 @@ export async function getAllSupplier(page: number, perPage: number = 5) {
 		await t.rollback();
 		throw error
 	}
+}
+
+function searchSupplier(search: any = {}) {	
+	var whereStatement: any = {};
+	if (search.name) {
+		whereStatement.name = {
+			[Model.Sequelize.Op.or]: {
+				[Model.Sequelize.Op.like]: `%${search.name}%`
+			},
+		}
+	}
+
+	if (search.phone) {
+		whereStatement.phone = {
+			[Model.Sequelize.Op.or]: {
+				[Model.Sequelize.Op.like]: `%${search.phone}%`
+			},
+		}
+	}
+
+	if (search.email) {
+		whereStatement.email = {
+			[Model.Sequelize.Op.or]: {
+				[Model.Sequelize.Op.like]: `%${search.email}%`
+			},
+		}
+	}
+	return whereStatement
 }

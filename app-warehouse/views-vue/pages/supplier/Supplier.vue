@@ -9,7 +9,9 @@
           href="/supplier"
           class="btn light-blue btn-small waves-effect waves-light"
           :disabled="btnDisabled"
-        >Back</a>
+        >
+          <i class="material-icons left">arrow_back</i>back
+        </a>
       </template>
     </vue-page-title>
 
@@ -24,7 +26,7 @@
           @submit.prevent
         >
           <div class="row">
-            <div class="col s6">
+            <div class="col s12 m6">
               <!-- Supplier Logo -->
               <vue-upload-image
                 label="Supplier Logo"
@@ -34,7 +36,7 @@
               />
             </div>
 
-            <div class="col s6">
+            <div class="col s12 m6">
               <!-- Supplier name -->
               <vue-input
                 label="Supplier"
@@ -85,7 +87,8 @@
                   class="light-blue btn-small waves-effect waves-light"
                   @click="submitSupplier"
                   :disabled="btnDisabled"
-                >{{btnSubmit}}</button>
+                >
+								 <i class="material-icons left">save</i>{{btnSubmit}}</button>
               </div>
             </div>
           </div>
