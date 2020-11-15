@@ -48,7 +48,7 @@ app.use(csurf());
 // Custome middlewares
 app.use(csrfToken);
 app.use(shareApp);
-// app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(methodOverride('X-HTTP-Method-Override'));
 
 // app.use(methodOverride(function (req, res) {
 // 	if (req.body && typeof req.body === 'object' && '_method' in req.body) {

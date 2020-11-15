@@ -12,7 +12,7 @@
           input-name="name"
           :default-value="search.name"
           :has-error="false"
-          v-model="search.name"
+          v-model.trim="search.name"
         />
       </div>
       <div class="col m4 s6">
@@ -21,7 +21,7 @@
           input-name="email"
           :default-value="search.email"
           :has-error="false"
-          v-model="search.email"
+          v-model.trim="search.email"
         />
       </div>
       <div class="col m4 s6">
@@ -29,8 +29,7 @@
           label="Phone"
           input-name="phone"
           :default-value="search.phone"
-          :has-error="false"
-          v-model="search.phone"
+          v-model.trim="search.phone"
         />
       </div>
     </div>
@@ -55,6 +54,14 @@ export default {
         phone: null
       }
     };
+  },
+  mounted() {
+    let searchQuery = __INITIAL_STATE__.searchQuery;
+    if (searchQuery) {
+      this.search.name = searchQuery.name;
+      this.search.email = searchQuery.email;
+      this.search.phone = searchQuery.phone;
+    }
   },
   components: {
     VueInput

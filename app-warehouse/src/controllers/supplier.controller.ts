@@ -1,21 +1,25 @@
-import { Request, Response, NextFunction } from 'express';
+import urlQuery from 'url'
 import { validationResult } from 'express-validator'
+import { Request, Response, NextFunction } from 'express';
 import * as supplierService from '../services/supplier.service'
 
 export async function getSupplier(req: Request, res: Response, next: NextFunction) {
 	try {
 		const page = req.query.page || 1
 		const perPage = 10
-		const suppliers = await supplierService.getAllSupplier(+page, perPage);
+		const suppliers = await supplierService.getAllSupplier(+page, perPage, req.query);
 		const data = {
 			suppliers: suppliers.rows,
 			total: suppliers.count,
 			page: req.query.page,
-			perPage: perPage
+			perPage: perPage,
+			searchQuery: Object.keys(req.query).length ? req.query : null,
+			fullUrl: urlQuery.parse(req.url, true).path
 		}
-
 		return res.renderVue('pages/supplier/SupplierIndex.vue', data);
 	} catch (error) {
+		console.log(error);
+		
 		return res.status(500).redirect('/500')
 	}
 

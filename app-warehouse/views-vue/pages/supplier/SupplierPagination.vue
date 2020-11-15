@@ -6,7 +6,7 @@
       </a>
     </li>
     <li v-for="item of getPage" :key="item" :class="{active: pageActive == (item+1)}">
-      <a :href="'?page=' + (item+1)">{{item+1}}</a>
+      <a :href="generateQueryString(item+1)">{{item+1}}</a>
     </li>
     <li class="waves-effect">
       <a href="#!">
@@ -27,8 +27,22 @@ export default {
   },
   mounted() {
     this.totalData = __INITIAL_STATE__.total;
-		this.perPage = __INITIAL_STATE__.perPage;
-		this.pageActive = __INITIAL_STATE__.page || 1;
+    this.perPage = __INITIAL_STATE__.perPage;
+    this.pageActive = __INITIAL_STATE__.page || 1;
+  },
+  methods: {
+    generateQueryString(item) {
+			const queryString = __INITIAL_STATE__.searchQuery;
+			let querySearch = `?page=${item}`
+      if (queryString) {
+        for (var queryName in queryString) {
+					if (queryString[queryName] && queryName != 'page') {
+						querySearch += `&${queryName}=${queryString[queryName]}`
+					}
+        }
+			}
+			return querySearch;
+    }
   },
   computed: {
     getPage() {
