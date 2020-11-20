@@ -1,12 +1,12 @@
 <template>
   <ul class="pagination right" v-if="getPage.length">
-    <li class="disabled">
+    <li :class="{disabled: pageActive == 1}">
       <a href="#!">
         <i class="material-icons">chevron_left</i>
       </a>
     </li>
     <li v-for="item of getPage" :key="item" :class="{active: pageActive == (item+1)}">
-      <a :href="generateQueryString(item+1)">{{item+1}}</a>
+      <a :href="generateQueryString(item+1)" @click="changePagination($event, +item+1)">{{item+1}}</a>
     </li>
     <li class="waves-effect">
       <a href="#!">
@@ -32,17 +32,19 @@ export default {
   },
   methods: {
     generateQueryString(item) {
-			const queryString = __INITIAL_STATE__.searchQuery;
-			let querySearch = `?page=${item}`
+      const queryString = __INITIAL_STATE__.searchQuery;
+      let querySearch = `?page=${item}`;
       if (queryString) {
         for (var queryName in queryString) {
-					if (queryString[queryName] && queryName != 'page') {
-						querySearch += `&${queryName}=${queryString[queryName]}`
-					}
+          if (queryString[queryName] && queryName != "page") {
+            querySearch += `&${queryName}=${queryString[queryName]}`;
+          }
         }
-			}
-			return querySearch;
-    }
+      }
+      return querySearch;
+    },
+    changePagination(e, item) {
+		}
   },
   computed: {
     getPage() {

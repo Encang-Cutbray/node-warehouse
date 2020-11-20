@@ -27,6 +27,7 @@
             </tr>
           </tbody>
         </table>
+				{{displayedPosts}}
         <nav aria-label="Page navigation example">
           <ul class="pagination">
             <li class="page-item">
@@ -104,7 +105,7 @@ export default {
   created() {
     this.getPosts();
   },
-  ilters: {
+  filters: {
     trimWords(value) {
       return (
         value

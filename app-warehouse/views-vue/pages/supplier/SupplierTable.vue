@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(supplier, index) in suppliers" :key="supplier.id">
+      <tr v-for="(supplier, index) in suppliers" :key="supplier.index">
         <td class="valign center">{{index+1+numberTable}}</td>
         <td>{{supplier.name}}</td>
         <td>{{supplier.phone}}r</td>
@@ -20,6 +20,7 @@
         <td class="valign center">
           <a
             :href="generateReviewUrl(supplier.id)"
+            @click="previousUrl"
             class="btn deep-orange darken-1 btn-small waves-effect waves-light"
           >
             <i class="material-icons left">rate_review</i>review
@@ -42,13 +43,16 @@ export default {
     let page = __INITIAL_STATE__.page;
     let supplierData = __INITIAL_STATE__.suppliers;
     if (page > 1) {
-      this.numberTable = __INITIAL_STATE__.perPage;
+      this.numberTable = __INITIAL_STATE__.perPage * (page - 1);
     }
     if (supplierData.length) {
       this.suppliers = this.generateSupplierData(supplierData);
     }
   },
   methods: {
+    previousUrl(e) {
+      this.$emit("previousUrl", window.location.href);
+    },
     generateReviewUrl(id) {
       return `/supplier/${id}/review`;
     },

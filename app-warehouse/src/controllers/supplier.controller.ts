@@ -14,12 +14,12 @@ export async function getSupplier(req: Request, res: Response, next: NextFunctio
 			page: req.query.page,
 			perPage: perPage,
 			searchQuery: Object.keys(req.query).length ? req.query : null,
-			fullUrl: urlQuery.parse(req.url, true).path
+			fullUrl: urlQuery.parse(req.url, true).path,
 		}
 		return res.renderVue('pages/supplier/SupplierIndex.vue', data);
 	} catch (error) {
 		console.log(error);
-		
+
 		return res.status(500).redirect('/500')
 	}
 

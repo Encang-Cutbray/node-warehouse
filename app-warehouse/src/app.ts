@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import methodOverride from 'method-override';
 import SessionSequelize from 'connect-session-sequelize';
+import paginate from 'express-paginate'
 
 import { shareApp, csrfToken } from './middlewares/share.middleware';
 import database from './models/index'
@@ -45,6 +46,8 @@ app.use(session({
 app.use(flash())
 app.use(csurf());
 
+app.use(paginate.middleware(10, 50));
+
 // Custome middlewares
 app.use(csrfToken);
 app.use(shareApp);
@@ -60,5 +63,5 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 
 
 export {
-	app, sessionStore
+	app, sessionStore, paginate
 };

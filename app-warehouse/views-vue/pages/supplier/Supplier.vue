@@ -6,7 +6,7 @@
       </template>
       <template v-slot:right>
         <a
-          href="/supplier"
+          @click="redirectPreviousUrl"
           class="btn light-blue btn-small waves-effect waves-light"
           :disabled="btnDisabled"
         >
@@ -88,7 +88,9 @@
                   @click="submitSupplier"
                   :disabled="btnDisabled"
                 >
-								 <i class="material-icons left">save</i>{{btnSubmit}}</button>
+                  <i class="material-icons left">save</i>
+                  {{btnSubmit}}
+                </button>
               </div>
             </div>
           </div>
@@ -99,15 +101,16 @@
 </template>
 
 <script>
+import handleUrlMixing from "../../mixing/previous-url";
+
 import VueWrapper from "../../components/Wrapper";
 import VuePageTitle from "../../components/PageTitle";
 import VueCardContent from "../../components/CardContent";
 
 import VueCsrf from "../../components/inputs/Csrf";
 import VueInput from "../../components/inputs/Input";
-import VueUploadImage from "../../components/inputs/UploadImage";
-
 import VueTextarea from "../../components/inputs/Textarea";
+import VueUploadImage from "../../components/inputs/UploadImage";
 import { log } from "util";
 
 export default {
@@ -137,23 +140,11 @@ export default {
     VueTextarea,
     VueUploadImage
   },
+  mixins: [handleUrlMixing],
   methods: {
     submitSupplier() {
       this.btnDisabled = !this.btnDisabled;
       this.$refs.form.submit();
-    },
-    parsingImage(url) {
-      if (url) {
-        var image = url.replace("assets", "");
-        return `http://localhost:3500${image}`;
-      }
-      return "";
-    }
-  },
-  watch: {
-    sampleImage: function(val) {
-      this.kopi = val;
-      return "welocme";
     }
   },
   mounted() {
@@ -175,7 +166,6 @@ export default {
       this.form.email = this.supplier.email;
       this.form.address = this.supplier.address;
       this.form.logo = this.supplier.logo;
-      this.sampleImage = this.supplier.logo;
       this.isEdit = true;
       this.urlAction = `/supplier/${this.supplier.id}/update`;
       this.pageTitle = "Review Supplier";

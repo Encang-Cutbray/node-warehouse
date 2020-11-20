@@ -16,7 +16,7 @@
     </vue-card-content>
 
     <vue-card-content :fit="true" v-slot:content>
-      <supplier-table></supplier-table>
+      <supplier-table @previousUrl="setPreviousUrl" />
     </vue-card-content>
 
     <supplier-pagination />
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import handleUrlMixing from "../../mixing/previous-url";
 import VueWrapper from "../../components/Wrapper";
 import VuePageTitle from "../../components/PageTitle";
 import VueCardContent from "../../components/CardContent";
@@ -33,6 +34,7 @@ import SupplierSearch from "./SupplierSearch";
 import SupplierPagination from "./SupplierPagination";
 
 export default {
+  mixins: [handleUrlMixing],
   components: {
     VueWrapper,
     VuePageTitle,

@@ -59,7 +59,8 @@ export async function getAllSupplier(page: number, perPage: number = 5, ...searc
 	try {
 		const supplier = await Model.Supplier.findAndCountAll({
 			where: searchSupplier(search[0]),
-			offset: offset, limit: perPage,
+			limit: perPage,
+			offset: offset,
 			attributes: ['id', 'name', 'phone', 'email', 'address']
 		}, { transaction: t })
 		await t.commit();
@@ -70,7 +71,7 @@ export async function getAllSupplier(page: number, perPage: number = 5, ...searc
 	}
 }
 
-function searchSupplier(search: any = {}) {	
+function searchSupplier(search: any = {}) {
 	var whereStatement: any = {};
 	if (search.name) {
 		whereStatement.name = {
