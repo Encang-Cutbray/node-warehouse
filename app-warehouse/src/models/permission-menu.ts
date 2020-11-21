@@ -19,6 +19,18 @@ export default function permissionMenu(sequelize: any, DataTypes: any) {
 			deleted_by: DataTypes.BIGINT,
 		},
 		{
+			scopes: {
+				activePermission: {
+					where: {
+						is_active: true
+					}
+				},
+				withMenu: {
+					where: {
+						is_active: true
+					}
+				},
+			},
 			sequelize,
 			modelName: 'PermissionMenu',
 			tableName: 'permission_menus',
@@ -28,7 +40,7 @@ export default function permissionMenu(sequelize: any, DataTypes: any) {
 			createdAt: 'created_at',
 			updatedAt: 'updated_at',
 			paranoid: true,
-		}
+		},
 	);
 	return PermissionMenu;
 };

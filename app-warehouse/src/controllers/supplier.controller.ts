@@ -19,7 +19,6 @@ export async function getSupplier(req: Request, res: Response, next: NextFunctio
 		return res.renderVue('pages/supplier/SupplierIndex.vue', data);
 	} catch (error) {
 		console.log(error);
-
 		return res.status(500).redirect('/500')
 	}
 

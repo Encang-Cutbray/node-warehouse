@@ -10,6 +10,9 @@ const PERMISSION = [
 	'Import',
 	'Export',
 	'Print',
+	'Approve',
+	'Disable',
+	'Enable'
 ]
 
 module.exports = {

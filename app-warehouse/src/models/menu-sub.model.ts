@@ -2,7 +2,10 @@ import { Model } from "sequelize";
 export default function menuSubModel(sequelize: any, DataTypes: any) {
 	class MenuSub extends Model {
 		static associate(models: any) {
-			// models.MenuSub.belongsTo(models.Menu)
+			models.MenuSub.hasMany(models.PermissionMenu, {
+				foreignKey: 'menu_sub_id',
+				as: 'permissionMenuSubs'
+			})
 		}
 	}
 	MenuSub.init(

@@ -7,18 +7,21 @@ module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		try {
 			await resetForeignKey(queryInterface, 'menu_subs', 'menus')
-			
+
 			await Model.sequelize.transaction(async function (t) {
 				for (let index = 0; index < leftNav.menu.length; index++) {
 
 					let menu = leftNav.menu[index]
 
+					// seed menu
 					var nav = await Model.Menu.create({
 						code: menu.code.toLowerCase(),
 						name: menu.name,
 						url: menu.url,
 					}, { transaction: t })
 
+
+					// seed sub
 					if (menu.subMenu != undefined) {
 						for (let i = 0; i < menu.subMenu.length; i++) {
 							await nav.createMenuSub({
@@ -28,10 +31,10 @@ module.exports = {
 							}, { transaction: t })
 						}
 					}
-
 				}
 			})
 		} catch (error) {
+			console.log(error);
 			await resetForeignKey(queryInterface, 'menu_subs', 'menus')
 		}
 	},

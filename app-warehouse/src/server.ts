@@ -7,10 +7,12 @@ import { errorHandler } from './middlewares/error.middleware';
 
 import authRoute from './routes/auth.route';
 import errorRoute from './routes/error.route';
+import accessRoute from './routes/access.route';
 import sampleRoute from './routes/sample.route';
-import dashboardRoute from './routes/dashboard.route';
 import supplierRoute from './routes/supplier.route';
+import dashboardRoute from './routes/dashboard.route';
 import warehouseRoute from './routes/warehouse.route';
+
 
 const expressVueConfig = require('../expressvue.config');
 
@@ -28,6 +30,7 @@ expressVue.use(app, expressVueConfig).then(() => {
 	app.use(dashboardRoute)
 	app.use(supplierRoute)
 	app.use(warehouseRoute)
+	app.use(accessRoute)
 
 	app.use(sampleRoute)
 

@@ -1,0 +1,4 @@
+run seeder databases
+npx sequelize db:seed:all
+
+/Volumes/inter-hdd/Code/Express-Project/node-warehouse/app-warehouse/node_modules/sequelize-cli/lib/commands/seed.js

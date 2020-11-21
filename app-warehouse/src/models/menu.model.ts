@@ -6,6 +6,10 @@ export default function menuModel(sequelize: any, DataTypes: any) {
 				foreignKey: 'menu_id',
 				as: 'menuSubs'
 			})
+			models.Menu.hasMany(models.PermissionMenu, {
+				foreignKey: 'menu_id',
+				as: 'permissionMenus'
+			})
 		}
 	}
 	Menu.init(
