@@ -1,4 +1,5 @@
 import { Model } from "sequelize";
+
 export default function permissionMenu(sequelize: any, DataTypes: any) {
 	class PermissionMenu extends Model {
 		static associate(models: any) {
@@ -50,7 +51,7 @@ export default function permissionMenu(sequelize: any, DataTypes: any) {
 							required: false,
 							where: { is_active: true },
 							attributes: ['id', 'code', 'name', 'url', 'is_active']
-						},
+						}
 					]
 				},
 			},

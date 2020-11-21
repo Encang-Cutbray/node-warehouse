@@ -22,7 +22,7 @@ module.exports = {
 								await menuSubs[k].createPermissionMenuSub({
 									menu_id: menu[j].dataValues.id,
 									permission_id: permission[i].dataValues.id,
-									name: `${menuSubs[k].dataValues.code}.${permission[i].dataValues.code}`,
+									name: `${menuSubs[k].dataValues.code.split(' ').join('-')}.${permission[i].dataValues.code}`,
 								}, { transaction: t })
 							}
 						} else {

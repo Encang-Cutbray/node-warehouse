@@ -63,6 +63,18 @@ export async function getUser() {
 	}
 }
 
+export async function findUserById(id: number) {
+	try {
+		let User = await Model.User.findOne({
+			where: { id: id },
+			attributes: ['id', 'full_name', 'email']
+		})
+		return User
+	} catch (error) {
+		throw error;
+	}
+}
+
 export async function hashPassword(password: string) {
 	const saltRounds = process.env!.SALT_ROUNDS as string;
 	return await bcrypt.hash(password, parseInt(saltRounds))

@@ -4,7 +4,7 @@ export default function permission(sequelize: any, DataTypes: any) {
 		static associate(models: any) {
 			models.Permission.hasMany(models.PermissionMenu, {
 				foreignKey: 'permission_id',
-				as: 'PermissionMenu'
+				as: 'PermissionMenus'
 			})
 		}
 	}

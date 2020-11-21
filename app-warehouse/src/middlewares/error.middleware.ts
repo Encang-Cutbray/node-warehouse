@@ -9,10 +9,8 @@ export interface ErrorException extends Error {
 }
 
 export function errorHandler(error: ErrorException, req: Request, res: Response, next: NextFunction) {
-	console.log(error);
-
 	if (error.code === 'EBADCSRFTOKEN') {
 		return res.status(403).redirect('/403')
 	}
-	res.redirect('/500')
+	// res.redirect('/500')
 }

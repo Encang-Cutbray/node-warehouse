@@ -38,10 +38,20 @@ export default function menuModel(sequelize: any, DataTypes: any) {
 							model: sequelize.models.MenuSub, as: 'menuSubs',
 							required: false,
 							where: { is_active: true },
-							attributes: ['id', 'code', 'name', 'url', 'is_active']
+							attributes: ['id', 'code', 'name', 'url', 'is_active'], 
 						}
 					]
-				}
+				},
+				withPermission: {
+					include: [
+						{
+							model: sequelize.models.PermissionMenu, as: 'permissionMenus',
+							required: false,
+							where: { is_active: true },
+							attributes: ['id', 'code', 'name', 'is_active']
+						}
+					]
+				},
 			},
 			sequelize,
 			underscored: true,
@@ -53,6 +63,6 @@ export default function menuModel(sequelize: any, DataTypes: any) {
 			updatedAt: 'updated_at',
 			paranoid: true,
 		}
-	);
+	);	
 	return Menu;
 };

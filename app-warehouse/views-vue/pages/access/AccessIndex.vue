@@ -5,7 +5,11 @@
         <div class="left blue-text text-light-blue">Access</div>
       </template>
       <template v-slot:right>
-        <a href="/access/create" class="btn light-blue btn-small waves-effect waves-light">
+        <a
+          href="/access/create"
+          class="btn light-blue btn-small waves-effect waves-light"
+          :disabled="true"
+        >
           <i class="material-icons left">add</i>new
         </a>
       </template>
