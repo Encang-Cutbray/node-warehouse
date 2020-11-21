@@ -111,7 +111,6 @@ import VueCsrf from "../../components/inputs/Csrf";
 import VueInput from "../../components/inputs/Input";
 import VueTextarea from "../../components/inputs/Textarea";
 import VueUploadImage from "../../components/inputs/UploadImage";
-import { log } from "util";
 
 export default {
   data() {

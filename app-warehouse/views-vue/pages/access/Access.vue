@@ -5,17 +5,12 @@
         <div class="left blue-text text-light-blue">Access</div>
       </template>
       <template v-slot:right>
-        <a
-          @click="redirectPreviousUrl"
-          class="btn light-blue btn-small waves-effect waves-light"
-        >
+        <a @click="redirectPreviousUrl" class="btn light-blue btn-small waves-effect waves-light">
           <i class="material-icons left">arrow_back</i>back
         </a>
       </template>
     </vue-page-title>
-    <vue-card-content v-slot:content>
-			{{access[0]}}
-		</vue-card-content>
+    <vue-card-content v-slot:content>{{access[0]}}</vue-card-content>
   </vue-wrapper>
 </template>
 

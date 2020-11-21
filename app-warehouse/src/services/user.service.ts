@@ -51,6 +51,18 @@ export async function loginUser(login: userLogin) {
 	}
 }
 
+export async function getUser() {
+	try {
+		const t = await Model.sequelize.transaction();
+		let User = await Model.User.findAll({ raw: true, attributes: ['id', 'full_name', 'email'] },
+			{ transaction: t })
+		await t.commit();
+		return User
+	} catch (error) {
+		throw error;
+	}
+}
+
 export async function hashPassword(password: string) {
 	const saltRounds = process.env!.SALT_ROUNDS as string;
 	return await bcrypt.hash(password, parseInt(saltRounds))

@@ -2,6 +2,18 @@ import { Model } from "sequelize";
 export default function permissionMenu(sequelize: any, DataTypes: any) {
 	class PermissionMenu extends Model {
 		static associate(models: any) {
+			models.PermissionMenu.belongsTo(models.Menu, {
+				foreignKey: 'menu_id',
+				as: 'Menu'
+			})
+			models.PermissionMenu.belongsTo(models.MenuSub, {
+				foreignKey: 'menu_sub_id',
+				as: 'MenuSub'
+			})
+			models.PermissionMenu.belongsTo(models.Permission, {
+				foreignKey: 'permission_id',
+				as: 'Permission'
+			})
 		}
 	}
 	PermissionMenu.init(
@@ -26,9 +38,20 @@ export default function permissionMenu(sequelize: any, DataTypes: any) {
 					}
 				},
 				withMenu: {
-					where: {
-						is_active: true
-					}
+					include: [
+						{
+							model: sequelize.models.Menu, as: 'Menu',
+							required: false,
+							where: { is_active: true },
+							attributes: ['id', 'code', 'name', 'url', 'is_active']
+						},
+						{
+							model: sequelize.models.MenuSub, as: 'MenuSub',
+							required: false,
+							where: { is_active: true },
+							attributes: ['id', 'code', 'name', 'url', 'is_active']
+						},
+					]
 				},
 			},
 			sequelize,

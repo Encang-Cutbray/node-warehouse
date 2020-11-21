@@ -2,6 +2,10 @@ import { Model } from "sequelize";
 export default function permission(sequelize: any, DataTypes: any) {
 	class Permission extends Model {
 		static associate(models: any) {
+			models.Permission.hasMany(models.PermissionMenu, {
+				foreignKey: 'permission_id',
+				as: 'PermissionMenu'
+			})
 		}
 	}
 	Permission.init(
