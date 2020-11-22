@@ -11,7 +11,7 @@ export const getAccess = async (req: Request, res: Response, next: NextFunction)
 		return res.status(500).redirect('/500')
 	}
 }
-export const reviewAccesUser = async (req: Request, res: Response, next: NextFunction) => {
+export const reviewAccessUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const userId = req.params.userId
 		const user = await userService.findUserById(+userId)
@@ -25,7 +25,8 @@ export const reviewAccesUser = async (req: Request, res: Response, next: NextFun
 			permissions,
 			user: user.dataValues
 		}
-		return res.renderVue('pages/access/Access.vue', data);
+		// return res.json(menuAccess)
+		return res.renderVue('pages/access/SampleAccess.vue', data);
 	} catch (error) {
 		return res.status(500).redirect('/500')
 	}

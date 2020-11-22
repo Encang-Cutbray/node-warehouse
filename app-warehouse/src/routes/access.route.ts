@@ -5,7 +5,7 @@ import * as accessController from '../controllers/access.controller';
 const router = express.Router();
 
 router.get('/access', auth, accessController.getAccess);
-router.get('/access/:userId/review', auth, accessController.reviewAccesUser);
+router.get('/access/:userId/review', auth, accessController.reviewAccessUser);
 router.post('/access/:userId/save', auth, accessController.saveAccess);
 
 // router.post('/access/:accessId', auth, accessController.updateAccess);

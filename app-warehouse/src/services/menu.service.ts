@@ -27,6 +27,7 @@ export async function getMenuPermission() {
 						include: [{
 							required: false,
 							model: Model.PermissionMenu,
+							where: { is_active: true },
 							as: 'permissionMenuSubs',
 							attributes: ['id', 'menu_id', 'menu_sub_id', 'permission_id', 'name'],
 						}]
@@ -34,6 +35,7 @@ export async function getMenuPermission() {
 					{
 						model: Model.PermissionMenu,
 						required: false,
+						where: { is_active: true },
 						as: 'permissionMenus',
 						attributes: ['id', 'menu_id', 'menu_sub_id', 'permission_id', 'name'],
 					}],
