@@ -1,25 +1,22 @@
 <template>
-  <form action>
-    {{formCheckbox}}
+  <div>
     <div class="row">
-      <div
-        class="col s12"
-        v-for="(permissions, index) in permissionBox"
-        :key="`permissions-${index}`"
-      >
+      <div class="col s12" v-for="(permissions, i) in permissionBoxs" :key="`permissions-${i}`">
         <div
           class="col"
           style="width: 20%"
           v-for="(permission, index) in permissions"
+          :ref="index"
           :key="`permission-${index}`"
         >
           <label class="padding--vertical-1">
             <input
               type="checkbox"
+              :disabled="disabledBtn"
               class="filled-in"
-              :value="formCheckbox[parsePermissionName(permission.name)]"
-              :checked="formCheckbox[parsePermissionName(permission.name)]"
-              v-model="formCheckbox[parsePermissionName(permission.name)]"
+              :checked="permission.checked"
+              :value="true"
+              v-model="form.checkBoxForm[i][index].checked"
               :name="parsePermissionName(permission.name)"
             />
             <span>{{parsePermissionName(permission.name)}}</span>
@@ -30,14 +27,23 @@
     <div class="row">
       <div class="col s12">
         <div class="left">
-          <button type="button" class="light-teal btn-small waves-effect waves-light">Check all</button>
+          <button
+            @click="handleCheckAll"
+            :disabled="disabledBtn"
+            type="button"
+            class="light-teal btn-small waves-effect waves-light"
+          >{{checkAll.text}}</button>
         </div>
         <div class="right">
-          <button @click="savePermission" class="light-blue btn-small waves-effect waves-light">Save</button>
+          <button
+            @click="savePermission"
+            :disabled="disabledBtn"
+            class="light-blue btn-small waves-effect waves-light"
+          >Save</button>
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -46,33 +52,59 @@ import _ from "lodash/array";
 export default {
   data() {
     return {
-      formCheckbox: {},
-      permissionBoxs: []
+      btnCheckAll: {
+        text: "Check All",
+        checkAll: true
+      },
+      form: {
+        checkBoxForm: []
+      }
     };
-	},
-	updated() {
-		console.log('updated');
-	},
-  mounted() {
-    this.permissionBoxs = this.permissionBox;
-    for (let index = 0; index < this.permissionCheckbox.length; index++) {
-      let form = this.parsePermissionName(this.permissionCheckbox[index].name);
-      this.formCheckbox[form] = false;
-    }
+  },
+  created() {
+    this.form.checkBoxForm = this.permissionBoxs;
   },
   methods: {
+    handleCheckAll(e) {
+      this.btnCheckAll.checkAll = !this.btnCheckAll.checkAll;
+      this.btnCheckAll.text = this.btnCheckAll.checkAll
+        ? "Check All"
+        : "Uncheck All";
+      let checkboxTrue = _.flattenDeep(this.form.checkBoxForm).map(checkbox => {
+        return { ...checkbox, checked: !this.btnCheckAll.checkAll };
+      });
+      this.form.checkBoxForm = _.chunk(checkboxTrue, 5);
+    },
     savePermission(e) {
       e.preventDefault();
-      console.log(this.formCheckbox);
+      this.$emit("handleSavePermission", _.flattenDeep(this.form.checkBoxForm));
     },
-    chechAllPermission() {},
     parsePermissionName(permissionName) {
       return permissionName.split(".")[1];
     }
   },
   computed: {
-    permissionBox: function() {
-      return _.chunk(this.permissionCheckbox, 5);
+    checkAll: function() {
+			const permissionUser = _.flattenDeep(this.form.checkBoxForm);
+			const isBtnCheckAll = permissionUser.every(permission => permission.checked == true)
+			if(!isBtnCheckAll) {
+				return { "text": "Check All", "checkAll": !isBtnCheckAll }
+			}
+			return { "text": "Uncheck All", "checkAll": isBtnCheckAll }
+    },
+
+    permissionBoxs: function() {
+      let userPermissions = [...this.permissionUser];
+      let permissions = this.permissionCheckbox.map(permission => {
+        let permissionTrue = userPermissions.find(
+          isCheck => isCheck.menu_permissions_id === permission.id
+        );
+        return { ...permission, checked: permissionTrue ? true : false };
+      });
+      return _.chunk(permissions, 5);
+    },
+    userPermissions: function() {
+      return this.permissionUser;
     }
   },
   props: {
@@ -80,6 +112,18 @@ export default {
       type: Array,
       default: function() {
         return [];
+      }
+    },
+    permissionUser: {
+      type: Array,
+      default: function() {
+        return [];
+      }
+    },
+    disabledBtn: {
+      type: Boolean,
+      default: function() {
+        return false;
       }
     }
   }

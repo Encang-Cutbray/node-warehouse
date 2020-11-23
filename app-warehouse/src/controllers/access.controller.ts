@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import * as accessService from '../services/access.service'
 import * as menuService from '../services/menu.service'
 import * as userService from '../services/user.service'
+import * as accessService from '../services/access.service'
+import _ from "lodash";
+
+
 
 export const getAccess = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -18,15 +21,14 @@ export const reviewAccessUser = async (req: Request, res: Response, next: NextFu
 		if (!user) {
 			throw 'User not found';
 		}
-		const permissions = await menuService.getPermissionMaster()
+		const permissionUser = await userService.getPermissionUser(user);
 		const menuAccess = await menuService.getMenuPermission()
 		const data = {
 			access: JSON.stringify(menuAccess),
-			permissions,
+			permissionUser,
 			user: user.dataValues
 		}
-		// return res.json(menuAccess)
-		return res.renderVue('pages/access/SampleAccess.vue', data);
+		return res.renderVue('pages/access/AccessSample.vue', data);
 	} catch (error) {
 		return res.status(500).redirect('/500')
 	}
@@ -39,10 +41,10 @@ export const saveAccess = async (req: Request, res: Response, next: NextFunction
 		if (!user) {
 			throw 'User not found';
 		}
-		return res.json(req.body)
-	} catch (error) {
-		console.log(error);
+		const permission = await userService.savePermissionUser(user, req.body.permissionUser);
 
+		return res.status(200).json({ permission, permii: req.body.permissionUser })
+	} catch (error) {
 		return res.status(500).redirect('/500')
 	}
 }

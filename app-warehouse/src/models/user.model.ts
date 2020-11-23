@@ -4,7 +4,11 @@ export default function userModel(sequelize: any, DataTypes: any) {
 		static associate(models: any) {			
 			models.User.hasMany(models.Supplier, {
 				foreignKey: 'created_by',
-				as: 'supplier'
+				as: 'suppliers'
+			})
+			models.User.hasMany(models.PermissionUser, {
+				foreignKey: 'user_id',
+				as: 'permissionUsers'
 			})
 		}
 	}

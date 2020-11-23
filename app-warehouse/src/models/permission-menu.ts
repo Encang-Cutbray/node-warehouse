@@ -15,6 +15,10 @@ export default function permissionMenu(sequelize: any, DataTypes: any) {
 				foreignKey: 'permission_id',
 				as: 'Permission'
 			})
+			models.PermissionMenu.hasMany(models.PermissionUser, {
+				foreignKey: 'menu_permissions_id',
+				as: 'PermissionUsers'
+			})
 		}
 	}
 	PermissionMenu.init(

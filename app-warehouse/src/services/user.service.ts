@@ -53,11 +53,23 @@ export async function loginUser(login: userLogin) {
 
 export async function getUser() {
 	try {
-		const t = await Model.sequelize.transaction();
-		let User = await Model.User.findAll({ raw: true, attributes: ['id', 'full_name', 'email'] },
-			{ transaction: t })
-		await t.commit();
+		let User = await Model.User.findAll({
+			raw: true,
+			attributes: ['id', 'full_name', 'email']
+		})
 		return User
+	} catch (error) {
+		throw error;
+	}
+}
+
+export async function getPermissionUser(user: typeof Model) {
+	try {
+		return await user.getPermissionUsers({
+			raw: true,
+			where: { is_active: true },
+			attributes: ['id', 'menu_permissions_id', 'user_id']
+		})
 	} catch (error) {
 		throw error;
 	}
@@ -74,6 +86,44 @@ export async function findUserById(id: number) {
 		throw error;
 	}
 }
+
+export async function savePermissionUser(user: typeof Model, permission: any) {
+	const t = await Model.sequelize.transaction();
+
+	try {
+		for (let index = 0; index < permission.length; index++) {
+			console.log(permission[index].checked);
+			let permissionUser = await Model.PermissionUser.findOne({
+				where: { menu_permissions_id: permission[index].id, user_id: user.id }
+			})
+			if (permissionUser) {
+				await permissionUser.update({
+					is_active: permission[index].checked,
+					updated_at: dateNow(),
+					updated_by: user.id
+				}, { transaction: t })
+			}
+			else {
+				await Model.PermissionUser.create({
+					menu_permissions_id: permission[index].id,
+					user_id: user.id,
+					is_active: permission[index].checked,
+					created_at: dateNow(),
+					created_by: user.id
+				}, { transaction: t })
+			}
+		}
+		await t.commit();
+
+		return await user.getPermissionUsers()
+
+	} catch (error) {
+		await t.rollback();
+		throw error
+	}
+}
+
+
 
 export async function hashPassword(password: string) {
 	const saltRounds = process.env!.SALT_ROUNDS as string;
