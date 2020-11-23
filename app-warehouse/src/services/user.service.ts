@@ -92,7 +92,6 @@ export async function savePermissionUser(user: typeof Model, permission: any) {
 
 	try {
 		for (let index = 0; index < permission.length; index++) {
-			console.log(permission[index].checked);
 			let permissionUser = await Model.PermissionUser.findOne({
 				where: { menu_permissions_id: permission[index].id, user_id: user.id }
 			})
