@@ -5,117 +5,130 @@
         <div class="left blue-text text-light-blue">Access</div>
       </template>
       <template v-slot:right>
-        <a @click="redirectPreviousUrl" class="btn light-blue btn-small waves-effect waves-light">
+        <a
+          @click="redirectPreviousUrl"
+          :disabled="disabled"
+          class="btn light-blue btn-small waves-effect waves-light"
+        >
           <i class="material-icons left">arrow_back</i>back
         </a>
       </template>
     </vue-page-title>
 
-    <vue-card-content v-slot:content>
-      <form :action="`/access/${userPermission ? userPermission.id: null}/save`" method="post">
-        <vue-csrf />
-        <table class="table table--bordered table--sm highlight">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <template v-for="permission in permissionLists">
-                <th :key="permission.id" class="valign center">{{permission.name}}</th>
-              </template>
-            </tr>
-          </thead>
-          <tbody>
-            <template v-for="(access, index) in accessList">
-              <tr :key="'access'+index" class="valign center">
-                <td :colspan="access.menuSubs.length ? permissions.length+1: 0">{{access.name}}</td>
-                <template v-if="!access.menuSubs.length">
-                  <td
-                    class="valign center"
-                    v-for="permission in permissionLists"
-                    :key="'permission'+permission.id"
-                  >
-                    <label>
-                      <input
-                        type="checkbox"
-                        :name="`${access.code}.${permission.name.toLowerCase()}`"
-                        class="filled-in"
-                        checked="checked"
-                        value="1"
-                      />
-                      <span class></span>
-                    </label>
-                  </td>
-                </template>
-              </tr>
-              <template v-if="access.menuSubs.length">
-                <tr v-for="sub in access.menuSubs" :key="sub.id" class="valign center">
-                  <td colspan="1">{{ sub.name }}</td>
-                  <td
-                    class="valign center"
-                    v-for="permission in permissionLists"
-                    :key="'sub'+permission.id"
-                  >
-                    <label>
-                      <input
-                        type="checkbox"
-                        class="filled-in"
-                        value="1"
-                        :name="`${sub.code}.${permission.name.toLowerCase()}`"
-                        checked="checked"
-                      />
-                      <span class></span>
-                    </label>
-                  </td>
-                </tr>
-              </template>
-            </template>
-          </tbody>
-        </table>
-        <div class="row">
-          <div class="col s12">
-            <div class="valign right">
-              <button class="light-blue btn-small waves-effect waves-light">
-                <i class="material-icons left">save</i> Save
-              </button>
-            </div>
-          </div>
+    <vue-card-content :without-card="true" v-slot:content :fit="true">
+      <div class="row">
+        <div class="col">
+          {{userPermission ? userPermission.full_name : null}} /
+          {{userPermission ? userPermission.email: null}}
         </div>
-      </form>
+      </div>
+      <div class="row">
+        <div class="col s6" v-for="(accesses, index) in accessList" :key="`accessList-${index}`">
+          <ul class="collapsible">
+            <li v-for="(access, index) in accesses" :key="`accesses-${index}`">
+              <div class="collapsible-header collapsible-padding__05">
+                <i class="material-icons">{{access.menuSubs.length ? 'view_list' : 'web_asset'}}</i>
+                {{access.name}}
+              </div>
+              <div class="collapsible-body collapsible-padding__05">
+                <!-- Nested menu -->
+                <template v-if="access.menuSubs.length">
+                  <ul class="collapsible">
+                    <li v-for="(menuSubs, index) in access.menuSubs" :key="`menuSubs-${index}`">
+                      <div class="collapsible-header collapsible-padding__05">
+                        <i class="material-icons">web_asset</i>
+                        {{menuSubs.name}}
+                      </div>
+                      <div class="collapsible-body collapsible-padding__05">
+                        <access-form
+                          @handleSavePermission="savePermission"
+                          :disabled-btn="disabled"
+                          :permission-user="permissionUser"
+                          :permission-checkbox="menuSubs.permissionMenuSubs"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </template>
+                <!-- No nested menu -->
+                <template v-else>
+                  <access-form
+                    @handleSavePermission="savePermission"
+                    :disabled-btn="disabled"
+                    :permission-user="permissionUser"
+                    :permission-checkbox="access.permissionMenus"
+                  ></access-form>
+                </template>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </vue-card-content>
   </vue-wrapper>
 </template>
 
 <script>
-import handleUrlMixing from "../../mixing/previous-url";
+import _ from "lodash/array";
+import axios from "axios";
 
+import AccessForm from "./AccessForm";
 import VueWrapper from "../../components/Wrapper";
-import VueCsrf from "../../components/inputs/Csrf";
 import VuePageTitle from "../../components/PageTitle";
 import VueCardContent from "../../components/CardContent";
+import handleUrlMixing from "../../mixing/previous-url";
+import helperMixing from "../../mixing/helper-mixing";
 
 export default {
   data() {
     return {
+      disabled: false,
       accessList: [],
-      permissionLists: [],
       userPermission: null
     };
   },
   mounted() {
-    this.accessList = JSON.parse(__INITIAL_STATE__.access || "[]");
-    this.permissionLists = __INITIAL_STATE__.permissions || [];
+    this.accessList = _.chunk(JSON.parse(__INITIAL_STATE__.access || "[]"), 2);
     this.userPermission = __INITIAL_STATE__.user || null;
+    this.collapsible();
   },
-  computed: {
+  mixins: [handleUrlMixing, helperMixing],
+  methods: {
+    async savePermission(permissionUser) {
+      try {
+        this.disabled = !this.disabled;
+        let userId = this.userPermission.id;
+        let result = await axios.post(`/access/${userId}/save`, {
+          _csrf: this.getCsrfToken(),
+          permissionUser
+        });
+        this.showNotification(
+          `Access for user ${this.userPermission.full_name}, Saved`
+        );
+        this.disabled = !this.disabled;
+      } catch (error) {
+        this.showNotification(error, false);
+        this.disabled = !this.disabled;
+      }
+    },
+    collapsible() {
+      document.addEventListener("DOMContentLoaded", function() {
+        var elems = document.querySelectorAll(".collapsible");
+        var instances = M.Collapsible.init(elems, {});
+      });
+    }
   },
-  mixins: [handleUrlMixing],
   components: {
-    VueCsrf,
+    AccessForm,
     VueWrapper,
     VuePageTitle,
     VueCardContent
   }
 };
 </script>
-
 <style>
+.collapsible-padding__05 {
+  padding: 0.5rem;
+}
 </style>
+

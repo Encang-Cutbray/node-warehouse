@@ -44,3 +44,39 @@ export async function getMenuPermission() {
 		throw error
 	}
 }
+
+export async function getMenuUser(userId: number) {
+	try {
+		return await Model.Menu.scope('activeMenu', 'getSubMenu').findAll({
+			attributes: ['id', 'code', 'name', 'url', 'is_active'],
+			include: [{
+				model: Model.MenuSub, as: 'menuSubs',
+				where: { is_active: true },
+				attributes: ['id', 'code', 'name', 'url', 'is_active'],
+				include: [{
+					model: Model.PermissionMenu, as: 'permissionMenuSubs',
+					where: { is_active: true },
+					attributes: ['id'],
+					include: [{
+						model: Model.PermissionUser, as: 'PermissionUsers',
+						where: { is_active: true, user_id: userId, },
+						attributes: ['id'],
+					}]
+				}]
+			},
+			{
+				model: Model.PermissionMenu, as: 'permissionMenus',
+				attributes: ['id'],
+				where: { is_active: true },
+				include: [{
+					model: Model.PermissionUser, as: 'PermissionUsers',
+					where: { is_active: true, user_id: userId, },
+					attributes: ['id'],
+				}]
+			}]
+		})
+	} catch (error) {
+		throw error
+	}
+
+}

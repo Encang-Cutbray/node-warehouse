@@ -89,7 +89,6 @@ export async function findUserById(id: number) {
 
 export async function savePermissionUser(user: typeof Model, permission: any) {
 	const t = await Model.sequelize.transaction();
-
 	try {
 		for (let index = 0; index < permission.length; index++) {
 			let permissionUser = await Model.PermissionUser.findOne({
@@ -112,12 +111,17 @@ export async function savePermissionUser(user: typeof Model, permission: any) {
 				}, { transaction: t })
 			}
 		}
+
 		await t.commit();
+		await Model.PermissionUser.destroy({
+			where: { is_active: false, user_id: user.id, }
+		})
 
 		return await user.getPermissionUsers()
 
 	} catch (error) {
 		await t.rollback();
+		console.log(error);
 		throw error
 	}
 }

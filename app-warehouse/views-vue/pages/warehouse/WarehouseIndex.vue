@@ -27,7 +27,6 @@
             </tr>
           </tbody>
         </table>
-				{{displayedPosts}}
         <nav aria-label="Page navigation example">
           <ul class="pagination">
             <li class="page-item">

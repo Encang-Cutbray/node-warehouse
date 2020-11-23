@@ -34,6 +34,8 @@ import SupplierSearch from "./SupplierSearch";
 import SupplierPagination from "./SupplierPagination";
 
 export default {
+  mounted() {
+  },
   mixins: [handleUrlMixing],
   components: {
     VueWrapper,

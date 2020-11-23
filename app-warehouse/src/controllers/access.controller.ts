@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as menuService from '../services/menu.service'
 import * as userService from '../services/user.service'
-import * as accessService from '../services/access.service'
 import _ from "lodash";
 
 
@@ -28,7 +27,7 @@ export const reviewAccessUser = async (req: Request, res: Response, next: NextFu
 			permissionUser,
 			user: user.dataValues
 		}
-		return res.renderVue('pages/access/AccessSample.vue', data);
+		return res.renderVue('pages/access/Access.vue', data);
 	} catch (error) {
 		return res.status(500).redirect('/500')
 	}

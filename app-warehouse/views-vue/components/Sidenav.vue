@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { log } from "util";
 export default {
   methods: {
     responsiveMenu() {
@@ -95,7 +96,7 @@ export default {
 };
 </script>
 <style>
-	#sidenav1.sidenav__250px{
-		width: 250px !important;
-	}
+#sidenav1.sidenav__250px {
+  width: 250px !important;
+}
 </style>
