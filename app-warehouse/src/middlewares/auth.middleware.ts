@@ -1,10 +1,8 @@
 import expressVue = require('express-vue');
-import { getMenuUser } from '../services/menu.service'
+import { getLeftNavUser, getPagePermission } from '../services/menu.service'
 import { Request, Response, NextFunction } from 'express';
 
 import { app } from '../app'
-import Model from '../models/index'
-import { includes } from 'lodash';
 const expressVueConfig = require('../../expressvue.config')
 
 // Get active url 
@@ -28,22 +26,27 @@ export function auth(req: Request, res: Response, next: NextFunction) {
 	}
 
 	expressVue.use(app, expressVueConfig).then(async () => {
-
-		let urlActive = splitUrl(req.originalUrl)
-		let userLogin = req.session!.userLogin
-		let menus = await getMenuUser(userLogin.id)
-
-		let config = {
-			isAuth: true,
-			userLogin: userLogin,
-			APP_NAME: process.env.APP_NAME || 'Node Warehouse',
-			urlActive: urlActive,
-			csrfToken: req.csrfToken(),
-			leftNavMenu: JSON.stringify(menus),
+		try {
+			let urlActive = splitUrl(req.originalUrl)
+			let userLogin = req.session!.userLogin
+			let menus = await getLeftNavUser(userLogin.id)
+			let pagePermission = await getPagePermission(userLogin.id, urlActive)
+			let config = {
+				isAuth: true,
+				userLogin: userLogin,
+				APP_NAME: process.env.APP_NAME || 'Node Warehouse',
+				urlActive: urlActive,
+				csrfToken: req.csrfToken(),
+				leftNavMenu: JSON.stringify(menus),
+				pagePermission: JSON.stringify(pagePermission)
+			}
+			res.locals = { ...config }
+			expressVueConfig.data.config = { ...config }
+			next()
+		} catch (error) {
+			return res.redirect('/500')
 		}
-		res.locals = { ...config }
-		expressVueConfig.data.config = { ...config }
-		next()
+
 	})
 }
 

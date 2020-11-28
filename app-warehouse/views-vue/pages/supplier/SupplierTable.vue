@@ -17,8 +17,9 @@
         <td>{{supplier.phone}}r</td>
         <td>{{supplier.email}}</td>
         <td>{{supplier.address}}</td>
-        <td class="valign center">
+        <td class="valign center"> 
           <a
+						:disabled="!readPermission"
             :href="generateReviewUrl(supplier.id)"
             @click="previousUrl"
             class="btn deep-orange darken-1 btn-small waves-effect waves-light"
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import permissionMixing from "../../mixing/permission-mixing";
 export default {
   data() {
     return {
@@ -39,6 +41,7 @@ export default {
       suppliers: []
     };
   },
+  mixins: [permissionMixing],
   mounted() {
     let page = __INITIAL_STATE__.page;
     let supplierData = __INITIAL_STATE__.suppliers;

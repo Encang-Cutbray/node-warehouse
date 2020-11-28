@@ -45,7 +45,7 @@ export async function getMenuPermission() {
 	}
 }
 
-export async function getMenuUser(userId: number) {
+export async function getLeftNavUser(userId: number) {
 	try {
 		return await Model.Menu.scope('activeMenu', 'getSubMenu').findAll({
 			attributes: ['id', 'code', 'name', 'url', 'is_active'],
@@ -55,7 +55,7 @@ export async function getMenuUser(userId: number) {
 				attributes: ['id', 'code', 'name', 'url', 'is_active'],
 				include: [{
 					model: Model.PermissionMenu, as: 'permissionMenuSubs',
-					where: { is_active: true },
+					where: { is_active: true, name: { [Model.Sequelize.Op.endsWith]: '.read' } },
 					attributes: ['id'],
 					include: [{
 						model: Model.PermissionUser, as: 'PermissionUsers',
@@ -67,7 +67,7 @@ export async function getMenuUser(userId: number) {
 			{
 				model: Model.PermissionMenu, as: 'permissionMenus',
 				attributes: ['id'],
-				where: { is_active: true },
+				where: { is_active: true, name: { [Model.Sequelize.Op.endsWith]: '.read' } },
 				include: [{
 					model: Model.PermissionUser, as: 'PermissionUsers',
 					where: { is_active: true, user_id: userId, },
@@ -79,4 +79,28 @@ export async function getMenuUser(userId: number) {
 		throw error
 	}
 
+}
+
+export async function getPagePermission(userId: number, page: string) {
+	let pageUrl = page.replace('/', '');
+	try {
+		return await Model.PermissionMenu.findAll({
+			where: {
+				name: { [Model.Sequelize.Op.like]: `%${pageUrl}%` },
+				// name: { [Model.Sequelize.Op.like]: `%.%` },
+				is_active: true,
+			},
+			attributes: ['name'],
+			include: [{
+				model: Model.PermissionUser, as: 'PermissionUsers',
+				attributes: ['id'],
+				where: {
+					is_active: true,
+					user_id: userId
+				}
+			}]
+		});
+	} catch (error) {
+		throw error
+	}
 }

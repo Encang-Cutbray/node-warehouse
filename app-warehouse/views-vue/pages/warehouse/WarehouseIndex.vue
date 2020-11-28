@@ -10,6 +10,7 @@
     </vue-page-title>
 
     <vue-card-content :fit="true" v-slot:content>
+			{{config.leftNavMenu}}
       <div class="offset">
         <table class="table table-bordered">
           <thead>

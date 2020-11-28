@@ -31,7 +31,7 @@
               <vue-upload-image
                 label="Supplier Logo"
                 name-input="logo"
-                :disabled="btnDisabled"
+                :disabled="btnDisabled || !createPermission || (!updatePermission && isEdit)"
                 :preview-file="logoSupplier"
               />
             </div>
@@ -43,7 +43,7 @@
                 input-name="supplierName"
                 :default-value="form.supplierName"
                 :has-error="errorTag == 'supplierName'"
-                :read-only="btnDisabled"
+                :read-only="btnDisabled || !createPermission || (!updatePermission && isEdit)"
                 v-model="form.supplierName"
               />
 
@@ -52,7 +52,7 @@
                 label="Phone"
                 input-name="phone"
                 :hasError="errorTag == 'phone'"
-                :readOnly="btnDisabled"
+                :readOnly="btnDisabled || !createPermission || (!updatePermission && isEdit)"
                 :default-value="form.phone"
                 v-model="form.phone"
               />
@@ -64,7 +64,7 @@
                 input-name="email"
                 :hasError="errorTag == 'email'"
                 :default-value="form.email"
-                :readOnly="btnDisabled"
+                :readOnly="btnDisabled || !createPermission || (!updatePermission && isEdit)"
                 v-model="form.email"
               />
 
@@ -74,7 +74,7 @@
                 input-name="address"
                 :hasError="errorTag == 'address'"
                 :default-value="form.address"
-                :readOnly="btnDisabled"
+                :readOnly="btnDisabled || !createPermission || (!updatePermission && isEdit)"
                 v-model="form.address"
               />
             </div>
@@ -86,7 +86,7 @@
                 <button
                   class="light-blue btn-small waves-effect waves-light"
                   @click="submitSupplier"
-                  :disabled="btnDisabled"
+                  :disabled="btnDisabled || !createPermission || (!updatePermission && isEdit)"
                 >
                   <i class="material-icons left">save</i>
                   {{btnSubmit}}
@@ -102,6 +102,7 @@
 
 <script>
 import handleUrlMixing from "../../mixing/previous-url";
+import permissionMixing from "../../mixing/permission-mixing";
 
 import VueWrapper from "../../components/Wrapper";
 import VuePageTitle from "../../components/PageTitle";
@@ -139,7 +140,7 @@ export default {
     VueTextarea,
     VueUploadImage
   },
-  mixins: [handleUrlMixing],
+  mixins: [handleUrlMixing, permissionMixing],
   methods: {
     submitSupplier() {
       this.btnDisabled = !this.btnDisabled;

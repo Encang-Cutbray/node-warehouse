@@ -113,20 +113,14 @@ export async function savePermissionUser(user: typeof Model, permission: any) {
 		}
 
 		await t.commit();
-		await Model.PermissionUser.destroy({
-			where: { is_active: false, user_id: user.id, }
-		})
 
 		return await user.getPermissionUsers()
 
 	} catch (error) {
 		await t.rollback();
-		console.log(error);
 		throw error
 	}
 }
-
-
 
 export async function hashPassword(password: string) {
 	const saltRounds = process.env!.SALT_ROUNDS as string;

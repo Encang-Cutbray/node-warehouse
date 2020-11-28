@@ -1,11 +1,11 @@
 export default {
 	methods: {
 		getPreviousUrl(e) {
-			return localStorage.getItem("previousUrl") || '/';
+			return localStorage.getItem("previousUrl") || document.referrer;
 		},
 		redirectPreviousUrl() {
 			let getPreviousUrl = localStorage.getItem("previousUrl");
-			window.location.href = getPreviousUrl || '/';
+			window.location.href = getPreviousUrl || document.referrer;
 			this.removePreviousUrl()
 		},
 		setPreviousUrl(url) {

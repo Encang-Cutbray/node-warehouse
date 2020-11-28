@@ -1,7 +1,8 @@
 import express from 'express';
 import multer from 'multer'
-import { check, body, query } from 'express-validator'
+import { check, body } from 'express-validator'
 import { auth } from '../middlewares/auth.middleware'
+import { isAuthorize } from '../middlewares/authorize.middleware'
 import { multerStorage, fileType } from '../utils/upload.utils'
 import * as supplierController from '../controllers/supplier.controller';
 
@@ -28,9 +29,9 @@ const validations = [
 	body('address', 'address is required').trim().notEmpty()
 ];
 
-router.get('/supplier', auth, supplierController.getSupplier);
-router.get('/supplier/create', auth, supplierController.createSupplier);
-router.post('/supplier/post', auth, upload.single('logo'), validations, supplierController.postSupplier);
-router.get('/supplier/:supplierId/review', auth, supplierController.reviewSupplier);
-router.post('/supplier/:supplierId/update', auth, upload.single('logo'), validations, supplierController.updateSupplier);
+router.get('/supplier', auth, isAuthorize('supplier.read'), supplierController.getSupplier);
+router.get('/supplier/create', auth, isAuthorize('supplier.read', 'supplier.create'), supplierController.createSupplier);
+router.post('/supplier/post', auth, isAuthorize('supplier.read', 'supplier.create'), upload.single('logo'), validations, supplierController.postSupplier);
+router.get('/supplier/:supplierId/review', auth, isAuthorize('supplier.read'), supplierController.reviewSupplier);
+router.post('/supplier/:supplierId/update', auth, isAuthorize('supplier.read', 'supplier.update'),upload.single('logo'), validations, supplierController.updateSupplier);
 export default router;

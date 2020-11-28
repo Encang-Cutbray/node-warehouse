@@ -5,7 +5,9 @@
         <div class="left blue-text text-light-blue">SUPPLIER</div>
       </template>
       <template v-slot:right>
-        <a href="/supplier/create" class="btn light-blue btn-small waves-effect waves-light">
+        <a href="/supplier/create" 
+					:disabled="!createPermission"
+					class="btn light-blue btn-small waves-effect waves-light">
           <i class="material-icons left">add</i>new
         </a>
       </template>
@@ -25,6 +27,8 @@
 
 <script>
 import handleUrlMixing from "../../mixing/previous-url";
+import permissionMixing from "../../mixing/permission-mixing";
+
 import VueWrapper from "../../components/Wrapper";
 import VuePageTitle from "../../components/PageTitle";
 import VueCardContent from "../../components/CardContent";
@@ -34,9 +38,8 @@ import SupplierSearch from "./SupplierSearch";
 import SupplierPagination from "./SupplierPagination";
 
 export default {
-  mounted() {
-  },
-  mixins: [handleUrlMixing],
+  mounted() {},
+  mixins: [handleUrlMixing, permissionMixing],
   components: {
     VueWrapper,
     VuePageTitle,
