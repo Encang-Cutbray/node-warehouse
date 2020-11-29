@@ -2,16 +2,26 @@ import multer from 'multer'
 import fs from 'fs'
 
 export function multerStorage(folder = 'public') {
-	const pathFile = `assets/storages/${folder}`
-	return multer.diskStorage({
-		destination: (req, file, callback) => {
-			callback(null, pathFile)
-		},
-		filename: (req, file, callback) => {
-			const timeUpload = Math.round(new Date().getTime() / 1000)
-			callback(null, `${timeUpload}-${file.originalname}`)
-		}
-	})
+	try {
+		let pathFile = `assets/storages/public/${folder}`
+
+		return multer.diskStorage({
+			destination: (req, file, callback) => {
+				if (!fs.existsSync(pathFile)) {
+					fs.mkdirSync(pathFile);
+				}
+				callback(null, pathFile)
+			},
+			filename: (req, file, callback) => {
+				const timeUpload = Math.round(new Date().getTime() / 1000)
+				callback(null, `${timeUpload}-${file.originalname}`)
+			}
+		})
+	} catch (error) {
+		console.log(error);
+
+	}
+
 }
 
 export function fileType(req: any, file: any, callback: Function) {

@@ -12,7 +12,7 @@ export default function userModel(sequelize: any, DataTypes: any) {
 			})
 			models.User.hasMany(models.WarehouseUser, {
 				foreignKey: 'user_id',
-				as: 'WarehouseUser'
+				as: 'WarehouseUsers'
 			})
 		}
 	}

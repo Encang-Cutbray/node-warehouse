@@ -17,10 +17,10 @@
 
     <vue-card-content v-slot:content>
       <form
-        method="POST"
-        autocomplete="off"
         :action="urlForm"
+        method="POST"
         enctype="multipart/form-data"
+        autocomplete="off"
         ref="form"
         @submit.prevent
       >
@@ -29,14 +29,16 @@
           <div class="col m5 s12">
             <vue-upload-image
               label="Warehouse Logo"
-              name-input="warehouseLogo"
+              name-input="logo"
               :disabled="btnDisabled || !createPermission || (!updatePermission && isEdit)"
-              :preview-file="null"
+              :preview-file="changeLogo ? null: form.logo"
+              :onChange="onFileChange"
+              @onRemove="onFileRemove"
             />
           </div>
           <div class="col m7 s12">
             <!-- Csrf Token -->
-            <vue-csrf />
+            <!-- <vue-csrf /> -->
 
             <!-- Code -->
             <vue-input
@@ -47,7 +49,6 @@
               :read-only="btnDisabled || !createPermission || (!updatePermission && isEdit)"
               v-model="form.code"
             />
-            {{form.code}}
             <!-- Name -->
             <vue-input
               label="Name"
@@ -61,7 +62,7 @@
             <vue-select
               label="User warehouse"
               input-name="users"
-              :default-value="null"
+              :default-value="form.users.map(user => user.value).join(',')"
               :read-only="btnDisabled || !createPermission || (!updatePermission && isEdit)"
               :settings="settingSelect"
               :onChange="onTagsChange"
@@ -121,6 +122,7 @@ export default {
       isEdit: false,
       urlAction: "/warehouse/post",
       errorTag: null,
+      changeLogo: false,
       form: {
         logo: "",
         code: "",
@@ -133,7 +135,7 @@ export default {
   computed: {
     urlForm: function() {
       const csrfToken = this.config.csrfToken;
-      return `${this.urlAction}/?_csrf=${csrfToken}`;
+      return `${this.urlAction}?_csrf=${csrfToken}`;
     },
     settingSelect: function() {
       let userWarehouse = this.userWarehouse.map(user => ({
@@ -149,17 +151,55 @@ export default {
       };
     }
   },
-  mounted() {},
+  mounted() {
+    if (this.warehouse) {
+      let warehouse = JSON.parse(this.warehouse);
+      let users = warehouse.WarehouseUsers.map(item => item.User).map(user => ({
+        id: user.id,
+        value: user.full_name
+      }));
+      this.isEdit = true;
+      this.btnName = "Update";
+      this.urlAction = `/warehouse/${warehouse.id}/update`;
+      this.form = {
+        logo: this.parseUrlLogo(warehouse.logo),
+        code: warehouse.code,
+        name: warehouse.name,
+        description: warehouse.description,
+        users: users
+      };
+    }
+  },
   mixins: [handleUrlMixing, permissionMixing],
   methods: {
+    parseUrlLogo(pathLogo) {
+      if (pathLogo) {
+        console.log(window.location.hostname);
+        console.log(window.location.port);
+        let parseLogo = pathLogo.replace("assets", "");
+        let protocol = `${window.location.protocol}//`;
+        let hostName = window.location.hostname;
+        let port = window.location.port ? `:${window.location.port}` : null;
+        let fullLogo = `${protocol}${hostName}${port}${parseLogo}`;
+        return fullLogo;
+      }
+      return null;
+    },
+    onFileChange(e) {
+      this.form.logo = e.target.files[0];
+      this.changeLogo = true;
+    },
+    onFileRemove() {
+      this.form.logo = null;
+      this.changeLogo = true;
+    },
     onTagsChange(e) {
       this.form.users = e.target.value ? JSON.parse(e.target.value) : [];
     },
     submitWarehouse(e) {
-      this.form;
       this.btnDisabled = !this.btnDisabled;
-      // this.$refs.form.submit();
       console.log(this.form);
+      this.$refs.form.submit();
     }
   },
   components: {

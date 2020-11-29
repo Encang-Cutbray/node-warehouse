@@ -17,9 +17,6 @@
 
 <script>
 export default {
-  updated() {
-    $("tags.tagify").attr("readonly", this.readOnly);
-  },
   props: {
     hasError: {
       type: Boolean,
@@ -74,10 +71,24 @@ export default {
       }
     }
   },
+  methods: {
+    buildTagify() {
+      let tagifyEl = this.$refs.tagify;
+      const Tagify = require("@yaireo/tagify/dist/tagify.min.js");
+      this.tagify = new Tagify(tagifyEl, this.settings);
+    }
+  },
   mounted() {
-    let tagifyEl = this.$refs.tagify;
-    const Tagify = require("@yaireo/tagify/dist/tagify.min.js");
-    this.tagify = new Tagify(tagifyEl, this.settings);
+    this.buildTagify();
+  },
+  updated() {
+    if (this.defaultValue) {
+			this.tagify.removeAllTags();
+      this.tagify.addTags(this.defaultValue);
+    }
+    if (this.readOnly) {
+      $("tags.tagify").attr("readonly", this.readOnly);
+    }
   }
 };
 </script>

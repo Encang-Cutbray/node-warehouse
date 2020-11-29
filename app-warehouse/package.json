@@ -5,6 +5,7 @@
 	"main": "server.js",
 	"scripts": {
 		"db:seeder": "npx sequelize db:seed:all",
+		"prod": "nodemon dist/server.js",
 		"dev": "concurrently --kill-others \"tsc -w\" \"nodemon --ext vue,ts dist/server.js\"",
 		"assets:build": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
 	},

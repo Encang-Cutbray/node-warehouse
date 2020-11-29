@@ -8,7 +8,7 @@ import * as supplierController from '../controllers/supplier.controller';
 
 const router = express.Router();
 const upload = multer({
-	storage: multerStorage(),
+	storage: multerStorage('supplier'),
 	fileFilter: fileType
 })
 
@@ -33,5 +33,5 @@ router.get('/supplier', auth, isAuthorize('supplier.read'), supplierController.g
 router.get('/supplier/create', auth, isAuthorize('supplier.read', 'supplier.create'), supplierController.createSupplier);
 router.post('/supplier/post', auth, isAuthorize('supplier.read', 'supplier.create'), upload.single('logo'), validations, supplierController.postSupplier);
 router.get('/supplier/:supplierId/review', auth, isAuthorize('supplier.read'), supplierController.reviewSupplier);
-router.post('/supplier/:supplierId/update', auth, isAuthorize('supplier.read', 'supplier.update'),upload.single('logo'), validations, supplierController.updateSupplier);
+router.post('/supplier/:supplierId/update', auth, isAuthorize('supplier.read', 'supplier.update'), upload.single('logo'), validations, supplierController.updateSupplier);
 export default router;

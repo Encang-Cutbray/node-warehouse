@@ -11,6 +11,7 @@
         :data-max-file-size="maxFileUpload"
         :disabled="disabled"
         :data-allowed-file-extensions="fileExtensions"
+        @change="onChange"
       />
     </template>
   </div>
@@ -21,10 +22,17 @@ import { log } from "util";
 export default {
   data() {
     return {
-      drEvent: null
+			drEvent: null,
+			sample: 'kopi'
     };
   },
   props: {
+    onChange: {
+      type: Function,
+      default: function() {
+        return false;
+      }
+		},
     nameInput: {
       type: String,
       default: function() {
@@ -50,9 +58,9 @@ export default {
       }
     },
     previewFile: {
-      type: String,
+      type: [Object, String, Symbol],
       default: function() {
-        return null;
+        return '';
       }
     },
     maxFileSize: {
@@ -87,6 +95,10 @@ export default {
           remove: "Remove",
           error: "Ooops, something wrong happended."
         }
+			});
+			var that = this
+      this.drEvent.on("dropify.beforeClear", function(event, element) {
+				that.$emit('onRemove')
       });
     }
   },

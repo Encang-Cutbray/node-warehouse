@@ -39,7 +39,7 @@ export async function postSupplier(req: Request, res: Response, next: NextFuncti
 		if (!errors.isEmpty()) {
 			throw errors.array()[0]
 		}
-		const { phone, supplierName, email, address } = req.body;
+		const { phone, supplierName, email, address } = req.body;		
 		const userId = req.session!.userLogin.id
 		const logo = req.file.path
 		const newSupplier = await supplierService.createSupplier({

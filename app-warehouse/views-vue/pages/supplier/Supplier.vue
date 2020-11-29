@@ -181,7 +181,12 @@ export default {
   computed: {
     logoSupplier: function() {
       if (this.form.logo) {
-        return `http://localhost:3500${this.form.logo.replace("assets", "")}`;
+        let parseLogo = this.form.logo.replace("assets", "");
+        let protocol = `${window.location.protocol}//`;
+        let hostName = window.location.hostname;
+        let port = window.location.port ? `:${window.location.port}` : null;
+        let fullLogo = `${protocol}${hostName}${port}${parseLogo}`;
+        return fullLogo;
       }
       return null;
     },

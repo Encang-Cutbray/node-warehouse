@@ -4,7 +4,7 @@ export default function warehouse(sequelize: any, DataTypes: any) {
 		static associate(models: any) {
 			models.Warehouse.hasMany(models.WarehouseUser, {
 				foreignKey: 'warehouse_id',
-				as: 'WarehouseUser'
+				as: 'WarehouseUsers'
 			})
 		}
 	};
