@@ -30,7 +30,7 @@ export default function supplierModel(sequelize: any, DataTypes: any) {
 			modelName: 'Supplier',
 			tableName: 'suppliers',
 			timestamps: false,
-			// underscored: true,
+			underscored: true,
 			deletedAt: 'deleted_at',
 			createdAt: 'created_at',
 			updatedAt: 'updated_at',

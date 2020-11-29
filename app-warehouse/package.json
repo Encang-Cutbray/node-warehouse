@@ -18,6 +18,7 @@
 	"author": "Encang Cutbray",
 	"license": "ISC",
 	"dependencies": {
+		"@yaireo/tagify": "^3.21.5",
 		"axios": "^0.21.0",
 		"bcrypt": "^5.0.0",
 		"body-parse": "^0.1.0",

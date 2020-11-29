@@ -89,7 +89,7 @@
                   :disabled="btnDisabled || !createPermission || (!updatePermission && isEdit)"
                 >
                   <i class="material-icons left">save</i>
-                  {{btnSubmit}}
+                  {{btnName}}
                 </button>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default {
     return {
       urlAction: "/supplier/post",
       pageTitle: "Create Supplier",
-      btnSubmit: "Save",
+      btnName: "Save",
       btnDisabled: false,
       isEdit: false,
       errorTag: "",
@@ -169,7 +169,7 @@ export default {
       this.isEdit = true;
       this.urlAction = `/supplier/${this.supplier.id}/update`;
       this.pageTitle = "Review Supplier";
-      this.btnSubmit = "Update";
+      this.btnName = "Update";
     }
     if (this.populate) {
       this.form.phone = this.populate.phone;

@@ -10,6 +10,10 @@ export default function userModel(sequelize: any, DataTypes: any) {
 				foreignKey: 'user_id',
 				as: 'permissionUsers'
 			})
+			models.User.hasMany(models.WarehouseUser, {
+				foreignKey: 'user_id',
+				as: 'WarehouseUser'
+			})
 		}
 	}
 	User.init(

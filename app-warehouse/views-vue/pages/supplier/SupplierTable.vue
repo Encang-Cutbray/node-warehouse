@@ -24,7 +24,8 @@
             @click="previousUrl"
             class="btn deep-orange darken-1 btn-small waves-effect waves-light"
           >
-            <i class="material-icons left">rate_review</i>review
+            <i class="material-icons left">rate_review</i>
+						<span class="hide-on-small-only">review</span>
           </a>
         </td>
       </tr>
